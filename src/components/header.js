@@ -5,8 +5,8 @@ import logo from '../assets/images/lightlogo.png'
 
 const Header = () => {
     return (
-        <Box maxW="1024px" h={'max-content'} m='0 auto'>
-            <Box p={2} bg="" w="100%" color="">
+        <Box>
+            <Box p={2} w="100%" color="">
                 <Flex>
                     <Box>
                         <Flex>
@@ -33,6 +33,9 @@ const Header = () => {
                             </ChakraLink>
                             <ChakraLink _hover={{ fontWeight: 'semibold', color: "red.500", backgroundColor: 'yellow.300'}}>
                                 <Link to="/about">About</Link>
+                            </ChakraLink>
+                            <ChakraLink _hover={{ fontWeight: 'semibold', color: "red.500", backgroundColor: 'yellow.300'}}>
+                                <Link to='/blog'>Blog</Link>
                             </ChakraLink>
                         </HStack>
                     </Box>

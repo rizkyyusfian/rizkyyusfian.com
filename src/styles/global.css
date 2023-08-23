@@ -1,5 +1,8 @@
 /* src/global.css */
 html {
     font-size: 100%;
+    width: 1024px;
+    margin: 0 auto;
+    background-color: pink;
   }
   

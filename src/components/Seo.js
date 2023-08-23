@@ -1,8 +1,20 @@
-import * as React from "react"
+import * as React from 'react'
+import { graphql, useStaticQuery } from 'gatsby'
 
-export const Head = () => (
-  <>
-    <title>About Me</title>
-    <meta name="description" content="Your description" />
-  </>
-)
+const Seo = ({ title }) => {
+  const data = useStaticQuery(graphql`
+    query {
+      site {
+        siteMetadata {
+          title
+        }
+      }
+    }
+  `)
+
+  return (
+    <title>{title} | {data.site.siteMetadata.title}</title>
+  )
+}
+
+export default Seo

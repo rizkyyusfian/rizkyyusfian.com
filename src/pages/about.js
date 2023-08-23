@@ -1,5 +1,7 @@
 import * as React from 'react'
 import { Link, graphql, useStaticQuery } from 'gatsby'
+import Layout from '../components/Layout'
+import Seo from '../components/Seo'
 
 
 const DisplayData = () => {
@@ -23,16 +25,16 @@ const DisplayData = () => {
 
 const AboutPage = () => {
   return (
-    <main>
+    <Layout>
       <h1>About Me</h1>
       <p>Hi there! I'm the proud creator of this site, which I built with Gatsby.</p>
       <p>Need a developer? <Link to="/contact">Contact me.</Link></p>
       <Link to="/">Back to Home</Link>
       <DisplayData />
-    </main>
+    </Layout>
   )
 }
 
-export const Head = () => <title>About Me</title>
+export const Head = () => <Seo title="About Page" />;
 
 export default AboutPage

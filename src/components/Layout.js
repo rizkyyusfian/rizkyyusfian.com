@@ -1,16 +1,18 @@
 import * as React from 'react'
-import { Link } from 'gatsby'
 import Header from './Header'
+import { Box, ChakraBaseProvider, ChakraProvider } from '@chakra-ui/react'
+import { theme } from '../@chakra-ui/gatsby-plugin/theme'
 
-const Layout = ({ pageTitle, children }) => {
+const Layout = ({ children }) => {
   return (
-    <div>
-      <Header />
-      <main>
-        <h1>{pageTitle}</h1>
+    <Box>
+      <Box border="1px solid white">
+        <Header />
+      </Box>
+      <Box border="1px solid white">
         {children}
-      </main>
-    </div>
+      </Box>
+    </Box>
   )
 }
 
