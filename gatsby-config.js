@@ -18,6 +18,8 @@ module.exports = {
         resetCSS: true,
       },
     },
+    "gatsby-plugin-image",
+    "gatsby-plugin-sharp",
     {
       resolve: "gatsby-source-filesystem",
       options: {
@@ -25,5 +27,6 @@ module.exports = {
         path: `${__dirname}/content`,
       }
     },
+    "gatsby-plugin-mdx",
   ],
 }
