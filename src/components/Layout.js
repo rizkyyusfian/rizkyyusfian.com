@@ -9,9 +9,7 @@ const Layout = ({ children }) => {
       <Box>
         <Header />
       </Box>
-      <Box flexGrow={1}>
-        {children}
-      </Box>
+      <Box flexGrow={1}>{children}</Box>
       <Box>
         <Footer />
       </Box>
