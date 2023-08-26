@@ -1,8 +1,13 @@
 /* src/global.css */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Roboto:wght@400;700&display=swap');
+
+* {
+  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto Mono', monospace;
+}
+
 html {
-    font-size: 100%;
-    width: 1024px;
-    margin: 0 auto;
-    background-color: pink;
-  }
-  
+  font-size: 100%;
+  width: 1024px;
+  margin: 0 auto;
+}

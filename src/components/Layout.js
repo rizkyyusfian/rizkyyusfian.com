@@ -1,19 +1,22 @@
-import * as React from 'react'
-import Header from './Header'
-import { Box, ChakraBaseProvider, ChakraProvider } from '@chakra-ui/react'
-import { theme } from '../@chakra-ui/gatsby-plugin/theme'
+import * as React from "react";
+import Header from "./Header";
+import Footer from "./Footer";
+import { Box, Flex } from "@chakra-ui/react";
 
 const Layout = ({ children }) => {
   return (
-    <Box>
-      <Box border="1px solid white">
+    <Flex flexDirection="column" minHeight="100vh">
+      <Box>
         <Header />
       </Box>
-      <Box border="1px solid white">
+      <Box flexGrow={1}>
         {children}
       </Box>
-    </Box>
-  )
-}
+      <Box>
+        <Footer />
+      </Box>
+    </Flex>
+  );
+};
 
-export default Layout
+export default Layout;

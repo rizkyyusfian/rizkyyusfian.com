@@ -5,11 +5,11 @@ module.exports = {
   siteMetadata: {
     title: `rizkyyusfian.com`,
     siteUrl: `https://www.yourdomain.tld`,
-    description: `Personal website`
+    description: `Personal website`,
   },
   plugins: [
     {
-      resolve: '@chakra-ui/gatsby-plugin',
+      resolve: "@chakra-ui/gatsby-plugin",
       options: {
         /**
          * @property {boolean} [resetCSS=true]
@@ -20,13 +20,13 @@ module.exports = {
     },
     "gatsby-plugin-image",
     "gatsby-plugin-sharp",
+    "gatsby-plugin-mdx",
     {
       resolve: "gatsby-source-filesystem",
       options: {
         name: `blog`,
         path: `${__dirname}/content`,
-      }
+      },
     },
-    "gatsby-plugin-mdx",
   ],
-}
+};

@@ -1,4 +1,4 @@
-import { Box, Text, Link, Wrap } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import * as React from "react";
 import Layout from "../components/Layout";
 import Seo from "../components/Seo";
@@ -25,7 +25,7 @@ const IndexPage = ({ data }) => {
     <Layout>
       <Box>
         <Hero />
-        <Box p={8}>
+        {/* <Box p={8}>
           <Text fontSize="4xl" fontWeight="bold">
             Latest Post
           </Text>
@@ -45,7 +45,7 @@ const IndexPage = ({ data }) => {
               ))}
             </Box>
           </Box>
-        </Box>
+        </Box> */}
       </Box>
     </Layout>
   );
@@ -53,4 +53,4 @@ const IndexPage = ({ data }) => {
 
 export default IndexPage;
 
-export const Head = () => <Seo title="Home Page" />;
+export const Head = () => <Seo title="Home" />;

@@ -1,8 +1,9 @@
-import { extendTheme } from "@chakra-ui/react";
+// src/@chakra-ui/gatsby-plugin/theme.js
+import { extendTheme } from '@chakra-ui/react'
 const theme = {
   colors: {
-    mryy: "pink",
+    primary: 'rebeccapurple',
   },
-};
+}
 
-export default extendTheme(theme);
+export default extendTheme(theme)
