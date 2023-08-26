@@ -1,27 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Box, SimpleGrid } from "@chakra-ui/react";
-import { graphql, useStaticQuery } from "gatsby";
 import Layout from "../components/Layout";
 import ProjectCard from "../components/ProjectCard";
 import Seo from "../components/Seo";
-
-const DisplayData = () => {
-  const data = useStaticQuery(graphql`
-    query {
-      site {
-        siteMetadata {
-          title
-        }
-      }
-    }
-  `);
-  console.log(data);
-  return (
-    <div>
-      <p>Site title is: {data.site.siteMetadata.title}</p>
-    </div>
-  );
-};
 
 const ProjectPage = ({ name }) => {
   const [repos, setRepos] = useState([]);
