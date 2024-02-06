@@ -25,7 +25,7 @@ const ProjectPage = ({ name }) => {
   return (
     <Layout>
       <Box p={4}>
-        <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={4}>
+        <SimpleGrid columns={{ base:1, sm: 2, md: 3 }} spacing={4}>
           {repos.map((repo) => (
             <ProjectCard
               key={repo.id}
@@ -33,6 +33,8 @@ const ProjectPage = ({ name }) => {
               description={repo.description}
               url={repo.html_url}
               language={repo.language}
+              articleLink={repo.html_url}
+              demoLink={repo.html_url}
             />
           ))}
         </SimpleGrid>

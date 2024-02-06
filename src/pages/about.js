@@ -17,7 +17,8 @@ import {
   List,
   ListItem,
   Flex,
-  Image
+  Image,
+  Tooltip,
 } from "@chakra-ui/react";
 
 const AboutPage = () => {
@@ -43,7 +44,7 @@ const AboutPage = () => {
             <Heading as="h1" size="xl" mb={4}>
               About Me
             </Heading>
-            <Text textAlign={'justify'}>
+            <Text textAlign={"justify"}>
               Hey there! I'm a software engineer based in Indonesia, passionate
               about building digital solutions that make an impact. I love
               diving into code and crafting innovative solutions using
@@ -53,7 +54,7 @@ const AboutPage = () => {
               Contact Me
             </Link>
           </Box>
-          <Box flex="1" display={'flex'} justifyContent={'center'}>
+          <Box flex="1" display={"flex"} justifyContent={"center"}>
             <Image
               src={logolight}
               alt="Profile Image"
@@ -85,10 +86,59 @@ const AboutPage = () => {
           </Heading>
           <Grid templateColumns="repeat(3, 1fr)" gap={4}>
             <GridItem>
-              <Badge colorScheme="blue">React</Badge>
+              <Tooltip label="PHP" aria-label="Next.js">
+                <img
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-plain.svg"
+                  height={"20%"}
+                  width={"20%"}
+                />
+              </Tooltip>
+            </GridItem>
+
+            <GridItem>
+              <Tooltip label="PHP" aria-label="Next.js">
+                <img
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
+                  height={"20%"}
+                  width={"20%"}
+                />
+              </Tooltip>
             </GridItem>
             <GridItem>
-              <Badge colorScheme="green">Node.js</Badge>
+              <Tooltip label="PHP" aria-label="Next.js">
+                <img
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg"
+                  height={"20%"}
+                  width={"20%"}
+                />
+              </Tooltip>
+            </GridItem>
+            <GridItem>
+              <Tooltip label="PHP" aria-label="Next.js">
+                <img
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original-wordmark.svg"
+                  height={"20%"}
+                  width={"20%"}
+                />
+              </Tooltip>
+            </GridItem>
+            <GridItem>
+              <Tooltip label="PHP" aria-label="Next.js">
+                <img
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+                  height={"20%"}
+                  width={"20%"}
+                />
+              </Tooltip>
+            </GridItem>
+            <GridItem>
+              <Tooltip label="PHP" aria-label="Next.js">
+                <img
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
+                  height={"20%"}
+                  width={"20%"}
+                />
+              </Tooltip>
             </GridItem>
             {/* Add more badges */}
           </Grid>
