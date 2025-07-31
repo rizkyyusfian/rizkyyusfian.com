@@ -11,10 +11,10 @@ export default function Header() {
   const { theme, toggleTheme } = useTheme();
 
   const navigation = [
-    { name: "About", href: "/about" },
-    { name: "Projects", href: "/projects" },
-    { name: "Blog", href: "/blog" },
-    { name: "Contact", href: "/contact" },
+    { name: "📝 Blog", href: "/blog" },
+    { name: "👤 About", href: "/about" },
+    { name: "💻 Projects", href: "/projects" },
+    { name: "📫 Contact", href: "/contact" },
   ];
 
   return (

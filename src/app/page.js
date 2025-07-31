@@ -9,6 +9,7 @@ import {
   Calendar,
   Clock,
 } from "lucide-react";
+import { TypingAnimation } from "@/components/magicui/typing-animation";
 
 export default function Home() {
   const featuredProjects = [
@@ -55,30 +56,41 @@ export default function Home() {
   ];
 
   return (
-    <div className="space-y-32">
+    <div className="space-y-16">
       {/* Hero Section */}
       <section className="pt-16 pb-24">
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* /* Left Content */}
-            <div className="space-y-8 fade-in">
+            <div className="space-y-8 slide-up">
               <div className="space-y-4">
                 <h1 className="heading-1 whitespace-nowrap">
-                  Hey, I&apos;m{" "}
-                  <span className="text-[var(--accent)]">Rizky Yusfian </span>
-                  <span className="wave"> 👋🏻</span>
+                  <TypingAnimation as="span" className="inline">
+                    Hey, I&apos;m &nbsp;
+                  </TypingAnimation>
+                  <TypingAnimation
+                    as="span"
+                    className="text-blue-400 inline"
+                    delay={1200}
+                  >
+                    Rizky Yusfian &nbsp;
+                  </TypingAnimation>
+                  <span className="wave">
+                    <TypingAnimation as="span" className="inline" delay={2400}>
+                      👋🏻
+                    </TypingAnimation>
+                  </span>
                 </h1>
-                <p className="text-xl text-[var(--muted-foreground)] leading-relaxed">
-                  Welcome to my digital space
-                  <span className="wave"> 🚀</span>
+                <p className="text-xl text-[var(--muted-foreground)] ">
+                  Welcome to my digital space 🚀.
                 </p>
               </div>
 
               <p className="text-large max-w-lg">
                 Hey there, I&apos;m a software engineer from Indonesia. I mostly
-                using PHP, JS, and GO in my projects. When
-                I&apos;m not immersed in my code, you&apos;ll find me exploring
-                movies, music, books, and gaming.
+                using PHP, JS, and GO in my projects. When I&apos;m not immersed
+                in my code, you&apos;ll find me exploring movies, music, books,
+                and gaming.
               </p>
 
               <div className="flex gap-4 pt-4">
