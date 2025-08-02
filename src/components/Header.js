@@ -24,11 +24,14 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center group">
             <Logo
-              width={48}
-              height={48}
+              width={36}
+              height={36}
               className="transition-transform duration-200 group-hover:scale-105"
               priority={true}
             />
+            <span className="ml-2 font-bold text-lg tracking-wide text-[var(--foreground)]">
+              RIZKYYUSFIAN
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
