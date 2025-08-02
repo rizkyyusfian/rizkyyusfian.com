@@ -120,7 +120,7 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section>
+      {/* <section>
         <div className="max-w-4xl mx-auto">
           <div className="card">
             <h2 className="heading-2 mb-6">About Me</h2>
@@ -149,10 +149,10 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Featured Projects */}
-      <section>
+      {/* <section>
         <div className="max-w-4xl mx-auto">
           <div className="card">
             <div className="flex items-center justify-between mb-8">
@@ -222,10 +222,10 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Latest Blog Posts */}
-      <section>
+      {/* <section>
         <div className="max-w-4xl mx-auto">
           <div className="card">
             <div className="flex items-center justify-between mb-8">
@@ -278,10 +278,10 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Contact CTA */}
-      <section>
+      {/* <section>
         <div className="max-w-2xl mx-auto">
           <div className="card text-center">
             <h2 className="heading-2 mb-4">Let&apos;s Work Together</h2>
@@ -296,7 +296,7 @@ export default function Home() {
             </Link>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }

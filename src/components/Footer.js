@@ -12,7 +12,7 @@ export default function Footer() {
     },
     {
       name: "Twitter",
-      href: "https://twitter.com/rizkyyusfian",
+      href: "https://twitter.com/xxmryyx",
       icon: Twitter,
     },
     {
@@ -22,7 +22,7 @@ export default function Footer() {
     },
     {
       name: "Email",
-      href: "mailto:hello@rizkyyusfian.com",
+      href: "mailto:rizkyyusfian16@gmail.com",
       icon: Mail,
     },
   ];

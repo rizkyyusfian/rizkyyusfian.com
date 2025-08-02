@@ -409,11 +409,6 @@ export default function About() {
       url: "https://ko-fi.com/rizkyyusfian",
       icon: Coffee,
     },
-    {
-      name: "Trakteer",
-      url: "https://trakt.tv/users/rizkyyusfian",
-      icon: Coffee,
-    },
   ];
 
   return (
@@ -422,7 +417,7 @@ export default function About() {
       <section className="pt-16">
         <div className="max-w-6xl mx-auto">
           {/* Hero Content */}
-          <div className="flex flex-col items-center gap-6 mb-12">
+          <div className="flex flex-col items-center gap-6 mb-12 slide-up">
             {/* <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[var(--card)] border border-[var(--border)] shadow-[var(--shadow-lg)]">
               <User className="w-10 h-10 text-[var(--accent)]" />
             </div> */}
