@@ -48,15 +48,6 @@ const getLanguageCategory = (language) => {
   return "Other";
 };
 
-// Technology extraction from topics and language
-const getTechnologies = (topics, language) => {
-  const techs = [...topics];
-  if (language && !techs.includes(language.toLowerCase())) {
-    techs.push(language);
-  }
-  return techs.slice(0, 6); // Limit to 6 technologies
-};
-
 export default function ProjectsClient({ projectsData }) {
   const theme = useTheme();
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -76,10 +67,10 @@ export default function ProjectsClient({ projectsData }) {
           tech: project.tech,
           category: project.category,
           year: project.year,
-          status: project.status,
+          status: project.status || "Completed", // Default status if not provided
           links: project.links,
           stats: project.stats,
-          topics: project.topics,
+          topics: project.topics || [], // Default empty array if topics not provided
         }));
 
         setProjects(staticProjects);
@@ -98,6 +89,7 @@ export default function ProjectsClient({ projectsData }) {
     "All",
     "Frontend",
     "Backend",
+    "Fullstack",
     "Data Science",
     "Mobile",
     "Other",
@@ -197,11 +189,6 @@ export default function ProjectsClient({ projectsData }) {
                       <div className="space-y-2 flex-1">
                         <div className="flex items-center gap-2 flex-wrap">
                           <Badge variant="secondary">{project.category}</Badge>
-                          {project.stats.language && (
-                            <Badge variant="outline">
-                              {project.stats.language}
-                            </Badge>
-                          )}
                         </div>
                         <h3 className="text-xl font-semibold hover:text-[var(--accent)] transition-colors">
                           {project.title}
@@ -274,14 +261,6 @@ export default function ProjectsClient({ projectsData }) {
                           </span>
                         </div>
                       </div>
-                      <Badge
-                        variant={
-                          project.status === "Active" ? "default" : "secondary"
-                        }
-                        className="text-xs"
-                      >
-                        {project.status}
-                      </Badge>
                     </div>
                   </CardContent>
                 </Card>
@@ -292,7 +271,7 @@ export default function ProjectsClient({ projectsData }) {
       </section>
 
       {/* GitHub CTA */}
-      <section>
+      {/* <section>
         <div className="max-w-2xl mx-auto">
           <div className="card text-center">
             <Github className="w-12 h-12 text-[var(--accent)] mx-auto mb-6" />
@@ -312,7 +291,7 @@ export default function ProjectsClient({ projectsData }) {
             </Link>
           </div>
         </div>
-      </section>
+      </section> */}
     </>
   );
 }

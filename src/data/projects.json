@@ -2,27 +2,21 @@
   "metadata": {
     "username": "rizkyyusfian",
     "fetched_at": "2025-08-03T00:26:22.321780+00:00",
-    "total_projects": 17,
-    "categories": {
-      "Frontend": 10,
-      "Data Science": 2,
-      "Backend": 3,
-      "Other": 2
-    }
+    "total_projects": 16
   },
   "projects": [
     {
       "title": "Lelangonline",
       "description": "Web-based online auction using native PHP. ",
       "tech": [
-        "auction-website",
-        "mysql",
-        "php",
-        "HTML"
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "PHP",
+        "MySQL"
       ],
-      "category": "Frontend",
+      "category": "Fullstack",
       "year": "2020",
-      "status": "Completed",
       "links": {
         "github": "https://github.com/rizkyyusfian/lelangonline",
         "live": null
@@ -33,25 +27,25 @@
         "language": "HTML",
         "size": 15237,
         "lastUpdated": "2023-07-27T15:43:53Z"
-      },
-      "topics": [
-        "auction-website",
-        "mysql",
-        "php"
-      ]
+      }
     },
     {
-      "title": "Rizkyyusfian.com",
-      "description": "A JavaScript project showcasing various development techniques and solutions.",
+      "title": "rizkyyusfian.com",
+      "description": "My personal website built with Next.js and Tailwind CSS",
       "tech": [
-        "JavaScript"
+        "Next.js",
+        "Tailwind CSS",
+        "JavaScript",
+        "React",
+        "Magic UI",
+        "Lucide React",
+        "motion"
       ],
       "category": "Frontend",
       "year": "2025",
-      "status": "Active",
       "links": {
         "github": "https://github.com/rizkyyusfian/rizkyyusfian.com",
-        "live": "https://rizkyyusfian-com.vercel.app"
+        "live": "https://www.rizkyyusfian.dev"
       },
       "stats": {
         "stars": 0,
@@ -59,18 +53,17 @@
         "language": "JavaScript",
         "size": 332,
         "lastUpdated": "2025-08-02T11:32:15Z"
-      },
-      "topics": []
+      }
     },
     {
       "title": "Healthcare Cost Prediction",
-      "description": "A Jupyter Notebook project showcasing various development techniques and solutions.",
+      "description": "Healthcare Cost Prediction using LightGBM model",
       "tech": [
+        "Python",
         "Jupyter Notebook"
       ],
       "category": "Data Science",
       "year": "2024",
-      "status": "Completed",
       "links": {
         "github": "https://github.com/rizkyyusfian/Healthcare_Cost_Prediction",
         "live": null
@@ -81,18 +74,22 @@
         "language": "Jupyter Notebook",
         "size": 5046,
         "lastUpdated": "2024-06-03T10:12:02Z"
-      },
-      "topics": []
+      }
     },
     {
       "title": "Vuejs Todolist",
-      "description": "A JavaScript project showcasing various development techniques and solutions.",
+      "description": "To-do list App built using Laravel and Vue.js",
       "tech": [
-        "JavaScript"
+        "PHP",
+        "Laravel",
+        "Vue.js",
+        "Axios",
+        "Bootstrap",
+        "Jquery",
+        "MySQL"
       ],
-      "category": "Frontend",
+      "category": "Fullstack",
       "year": "2023",
-      "status": "Completed",
       "links": {
         "github": "https://github.com/rizkyyusfian/vuejs_todolist",
         "live": null
@@ -103,18 +100,17 @@
         "language": "JavaScript",
         "size": 1377,
         "lastUpdated": "2024-05-20T10:02:10Z"
-      },
-      "topics": []
+      }
     },
     {
       "title": "Sentimentanalysis 50kimdbmoviereviews",
       "description": "A Jupyter Notebook project showcasing various development techniques and solutions.",
       "tech": [
+        "Python",
         "Jupyter Notebook"
       ],
       "category": "Data Science",
       "year": "2024",
-      "status": "Completed",
       "links": {
         "github": "https://github.com/rizkyyusfian/SentimentAnalysis-50kIMDBMovieReviews",
         "live": null
@@ -125,18 +121,17 @@
         "language": "Jupyter Notebook",
         "size": 384152,
         "lastUpdated": "2024-05-15T21:13:23Z"
-      },
-      "topics": []
+      }
     },
     {
       "title": "Golang Dts Finalproject",
-      "description": "A Go project showcasing various development techniques and solutions.",
+      "description": "MyGram App Webservice app using Go and Swagger for DTS Final Project",
       "tech": [
-        "Go"
+        "Go",
+        "Swagger"
       ],
       "category": "Backend",
       "year": "2024",
-      "status": "Completed",
       "links": {
         "github": "https://github.com/rizkyyusfian/golang-dts-finalproject",
         "live": null
@@ -147,8 +142,7 @@
         "language": "Go",
         "size": 171,
         "lastUpdated": "2024-03-23T11:44:23Z"
-      },
-      "topics": []
+      }
     },
     {
       "title": "Golang Dts Assignment2",
@@ -158,7 +152,6 @@
       ],
       "category": "Backend",
       "year": "2024",
-      "status": "Completed",
       "links": {
         "github": "https://github.com/rizkyyusfian/golang-dts-assignment2",
         "live": null
@@ -169,22 +162,20 @@
         "language": "Go",
         "size": 24,
         "lastUpdated": "2024-03-22T13:26:52Z"
-      },
-      "topics": []
+      }
     },
     {
       "title": "Tokopediaplay React",
-      "description": "Tokopedia Play React Clone for Gigih 3.0 Fullstack FinalTerm",
+      "description": "Tokopedia Play clone built using ReactJS and the Ant Design UI component library and deployed on Netlify for Gigih 3.0 Final Term Assignment",
       "tech": [
-        "ant-design",
-        "frontend",
-        "react-router",
-        "reactjs",
-        "JavaScript"
+        "JavaScript",
+        "Reactjs",
+        "React-router",
+        "Netflify",
+        "Ant-design"
       ],
       "category": "Frontend",
       "year": "2023",
-      "status": "Completed",
       "links": {
         "github": "https://github.com/rizkyyusfian/tokopediaplay-react",
         "live": "https://tokopediaplay-react.netlify.app/"
@@ -195,27 +186,19 @@
         "language": "JavaScript",
         "size": 357,
         "lastUpdated": "2023-08-15T10:12:49Z"
-      },
-      "topics": [
-        "ant-design",
-        "frontend",
-        "react-router",
-        "reactjs"
-      ]
+      }
     },
     {
       "title": "Tokopediaplay",
-      "description": "Tokopedia Play API Server for Gigih 3.0 Fullstack Midterm",
+      "description": "Tokopedia Play Backend API is a RESTful API server built using NodeJS with ExpressJS as a framework and MongoDB as a NoSQL database.",
       "tech": [
-        "backend-api",
-        "expressjs",
-        "mongodb",
-        "nodejs",
-        "JavaScript"
+        "JavaScript",
+        "Expressjs",
+        "MongoDB",
+        "Nodejs"
       ],
-      "category": "Frontend",
+      "category": "Backend",
       "year": "2023",
-      "status": "Completed",
       "links": {
         "github": "https://github.com/rizkyyusfian/tokopediaplay",
         "live": "https://tokopediaplay.up.railway.app/"
@@ -226,23 +209,17 @@
         "language": "JavaScript",
         "size": 6458,
         "lastUpdated": "2023-08-15T10:12:21Z"
-      },
-      "topics": [
-        "backend-api",
-        "expressjs",
-        "mongodb",
-        "nodejs"
-      ]
+      }
     },
     {
       "title": "Spotify Clone React",
-      "description": "A JavaScript project showcasing various development techniques and solutions.",
+      "description": "Spotify clone built using ReactJS",
       "tech": [
-        "JavaScript"
+        "JavaScript",
+        "Reactjs"
       ],
       "category": "Frontend",
       "year": "2023",
-      "status": "Completed",
       "links": {
         "github": "https://github.com/rizkyyusfian/spotify-clone-react",
         "live": null
@@ -253,19 +230,16 @@
         "language": "JavaScript",
         "size": 412,
         "lastUpdated": "2023-08-02T03:41:16Z"
-      },
-      "topics": []
+      }
     },
     {
       "title": "Rizkyyusfian",
       "description": "Config files for my GitHub profile.",
       "tech": [
-        "config",
-        "github-config"
+        "Markdown"
       ],
       "category": "Other",
       "year": "2021",
-      "status": "Completed",
       "links": {
         "github": "https://github.com/rizkyyusfian/rizkyyusfian",
         "live": "https://github.com/rizkyyusfian"
@@ -276,25 +250,18 @@
         "language": null,
         "size": 6,
         "lastUpdated": "2023-07-27T11:46:27Z"
-      },
-      "topics": [
-        "config",
-        "github-config"
-      ]
+      }
     },
     {
       "title": "Kalkulator",
-      "description": "Calculator using HTML/CSS/JS ",
+      "description": "Simple Calculator built using HTML/CSS/JS ",
       "tech": [
-        "calculator",
-        "css",
-        "html",
-        "js",
+        "HTML",
+        "CSS",
         "JavaScript"
       ],
       "category": "Frontend",
       "year": "2023",
-      "status": "Completed",
       "links": {
         "github": "https://github.com/rizkyyusfian/kalkulator",
         "live": "https://rizkyyusfian.github.io/kalkulator/"
@@ -305,23 +272,18 @@
         "language": "JavaScript",
         "size": 2,
         "lastUpdated": "2023-07-27T10:12:26Z"
-      },
-      "topics": [
-        "calculator",
-        "css",
-        "html",
-        "js"
-      ]
+      }
     },
     {
       "title": "Simplespotify",
-      "description": "Simple Spotify playlist server for Homework Module 2.3 on GIGIH 3.0",
+      "description": "Simple Spotify playlist API server for Homework Module 2.3 on GIGIH 3.0",
       "tech": [
-        "JavaScript"
+        "JavaScript",
+        "Nodejs",
+        "MongoDB"
       ],
-      "category": "Frontend",
+      "category": "Backend",
       "year": "2023",
-      "status": "Completed",
       "links": {
         "github": "https://github.com/rizkyyusfian/simplespotify",
         "live": null
@@ -332,18 +294,18 @@
         "language": "JavaScript",
         "size": 50,
         "lastUpdated": "2023-07-27T10:07:23Z"
-      },
-      "topics": []
+      }
     },
     {
       "title": "Notes App Back End",
-      "description": "Latihan Backend menggunakan Hapi & Node.js",
+      "description": "Simple web service API for learning backend using Hapi.js framework",
       "tech": [
-        "JavaScript"
+        "JavaScript",
+        "HapiJS",
+        "Nodejs"
       ],
-      "category": "Frontend",
+      "category": "Backend",
       "year": "2022",
-      "status": "Completed",
       "links": {
         "github": "https://github.com/rizkyyusfian/notes-app-back-end",
         "live": null
@@ -354,18 +316,19 @@
         "language": "JavaScript",
         "size": 50,
         "lastUpdated": "2022-11-30T04:37:08Z"
-      },
-      "topics": []
+      }
     },
     {
       "title": "Bgcovid",
-      "description": "Webgis inventarisasi penyebaran COVID-19",
+      "description": "WebGIS App that provides information about the spread of COVID-19 in Indonesia",
       "tech": [
-        "HTML"
+        "PHP",
+        "Laravel",
+        "Leafletjs",
+        "MySQL"
       ],
-      "category": "Frontend",
+      "category": "Fullstack",
       "year": "2020",
-      "status": "Completed",
       "links": {
         "github": "https://github.com/rizkyyusfian/bgcovid",
         "live": null
@@ -376,18 +339,17 @@
         "language": "HTML",
         "size": 65607,
         "lastUpdated": "2022-11-03T05:40:21Z"
-      },
-      "topics": []
+      }
     },
     {
       "title": "Onlineshop",
-      "description": "upload perdana",
+      "description": "Online shop mobile app built using Kotlin",
       "tech": [
-        "Kotlin"
+        "Kotlin",
+        "Android Studio"
       ],
       "category": "Mobile",
       "year": "2020",
-      "status": "Completed",
       "links": {
         "github": "https://github.com/rizkyyusfian/OnlineShop",
         "live": null
@@ -398,30 +360,7 @@
         "language": "Kotlin",
         "size": 1948,
         "lastUpdated": "2020-12-11T00:35:26Z"
-      },
-      "topics": []
-    },
-    {
-      "title": "Isaubaya",
-      "description": "A PHP project showcasing various development techniques and solutions.",
-      "tech": [
-        "PHP"
-      ],
-      "category": "Backend",
-      "year": "2020",
-      "status": "Completed",
-      "links": {
-        "github": "https://github.com/rizkyyusfian/isaubaya",
-        "live": null
-      },
-      "stats": {
-        "stars": 0,
-        "forks": 0,
-        "language": "PHP",
-        "size": 12,
-        "lastUpdated": "2020-10-04T00:06:55Z"
-      },
-      "topics": []
+      }
     }
   ]
 }
