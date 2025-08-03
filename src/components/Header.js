@@ -11,8 +11,8 @@ export default function Header() {
   const { theme, toggleTheme } = useTheme();
 
   const navigation = [
-    { name: "📝 Blog", href: "/blog" },
-    { name: "👤 About", href: "/about" },
+    // { name: "📝 Blog", href: "/blog" },
+    { name: "👤 About Me", href: "/about" },
     { name: "💻 Projects", href: "/projects" },
     { name: "📫 Contact", href: "/contact" },
   ];
