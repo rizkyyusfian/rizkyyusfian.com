@@ -86,7 +86,7 @@ export default function Home() {
                 </p>
               </div>
 
-              <p className="text-large max-w-lg text-[var(--muted-foreground)]">
+              <p className="text-large font-mono max-w-lg text-[var(--muted-foreground)] justify-evenly">
                 Hey there, I&apos;m a software engineer from Indonesia. I mostly
                 using PHP, JS, and GO in my projects. When I&apos;m not immersed
                 in my code, you&apos;ll find me exploring movies, music, books,

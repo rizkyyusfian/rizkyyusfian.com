@@ -206,6 +206,8 @@
 
   .text-large {
     @apply text-lg text-[var(--muted-foreground)] leading-7;
+    font-family: var(--font-roboto-mono), "Roboto Mono", Consolas, "Courier New",
+      monospace !important;
   }
 
   .text-muted {
