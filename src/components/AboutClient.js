@@ -15,6 +15,7 @@ import {
   BriefcaseBusiness,
   ScrollText,
   CircleUserRound,
+  NotebookPen,
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -80,82 +81,61 @@ export default function AboutClient({
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-1 gap-12 items-start">
             {/* Personal Story with Image on Right */}
-            <div className="">
-              <div className="flex flex-col lg:flex-row gap-8 items-start">
-                {/* Left: Story */}
-                <div className="flex-1 lg:flex-[3] space-y-6">
-                  <div className="flex items-center mb-8">
-                    <CircleUserRound className="w-7 h-7 text-[var(--accent)] mr-3" />
-                    <h2 className="heading-2 text-left">
-                      quick Intro about me.
-                    </h2>
-                  </div>
-                  <p className="text-small text-[var(--muted-foreground)] text-justify">
-                    Hello! I&apos;m Muhammad Rizky Yusfian Yusuf, but my friend
-                    often call me Fian or Rizky. i enjoy build and explore
-                    things that related to internet, software, and tech.
-                  </p>
-                  <p className="text-small text-[var(--muted-foreground)] text-justify">
-                    I&apos;m a person with high curiosity and eagerness to learn
-                    new things. My expertise includes software engineering, Data
-                    Science, and AI/ML, with hands-on experience in both
-                    frontend and backend development, as well as building
-                    intelligent systems .when im not coding, you can find me
-                    playing video games, watching movies, or just slacking of
-                    browsing through the internet. creating solutions through
-                    code.
-                  </p>
-                  <p className="text-small text-[var(--muted-foreground)] text-justify">
-                    as for this Platform, It&apos;s a space for self-expression
-                    and to share what I&apos;ve learned with the world. This
-                    blog is my platform to share insights, experiences, and
-                    discoveries from my journey as a software engineer. i aim to
-                    inspire and connect with others through my content.
-                  </p>
+            <div className="flex flex-col lg:flex-row gap-8 items-start">
+              {/* Left: Story */}
+              <div className="flex-1 lg:flex-[3] space-y-6">
+                <div className="flex items-center mb-8">
+                  <CircleUserRound className="w-7 h-7 text-[var(--accent)] mr-3" />
+                  <h2 className="heading-2 text-left">quick Intro about me</h2>
                 </div>
-                {/* Right: Image Placeholder */}
-                <div className="w-full lg:w-auto lg:flex-[2] flex-shrink-0 flex items-center justify-center mt-16">
-                  <div className="w-full h-[400px] flex items-center justify-center bg-gradient-to-br from-[var(--accent)]/10 to-[var(--accent)]/5 border-2 border-dashed border-[var(--accent)]/30 rounded-xl">
-                    <div className="text-center space-y-4">
-                      <div className="w-16 h-16 mx-auto rounded-full bg-[var(--accent)]/20 flex items-center justify-center">
-                        <User className="w-8 h-8 text-[var(--accent)]" />
-                      </div>
-                      <div className="space-y-2">
-                        <h3 className="heading-3 text-[var(--accent)]">
-                          Image Placeholder
-                        </h3>
-                        <p className="text-[var(--muted-foreground)] text-sm">
-                          Carousel images or Spotify profile card will be added
-                          here
-                        </p>
-                      </div>
+                <p className="text-small text-[var(--muted-foreground)] text-justify">
+                  Hello! I&apos;m Muhammad Rizky Yusfian Yusuf, but my friends
+                  often call me Fian or Rizky. i enjoy building and exploring
+                  things that are related to software and tech 👾.
+                </p>
+                <p className="text-small text-[var(--muted-foreground)] text-justify">
+                  I&apos;m curious about many stuff, thats why im lowkey
+                  obsessed with learning new things. My expertise includes
+                  software engineering, Data Science, and AI/ML. when i&apos;m
+                  not coding, you can find me playing video games, watching
+                  movies, or just vibing and browsing through the internet 🌐.
+                </p>
+                <p className="text-small text-[var(--muted-foreground)] text-justify">
+                  this website is basically my digital space where i plan to
+                  drop blogs about literally everything - life updates, tech
+                  stuff, game reviews, movie thoughts, music recs, and whatever
+                  crosses my mind tbh. it&apos;s my space to share experiences,
+                  insights, and random discoveries from both my professional
+                  journey and personal interests ✨.
+                </p>
+              </div>
+              {/* Right: Image Placeholder */}
+              <div className="w-full lg:w-auto lg:flex-[2] flex-shrink-0 flex items-center justify-center mt-16">
+                <div className="w-full h-[400px] flex items-center justify-center bg-gradient-to-br from-[var(--accent)]/10 to-[var(--accent)]/5 border-2 border-dashed border-[var(--accent)]/30 rounded-xl">
+                  <div className="text-center space-y-4">
+                    <div className="w-16 h-16 mx-auto rounded-full bg-[var(--accent)]/20 flex items-center justify-center">
+                      <User className="w-8 h-8 text-[var(--accent)]" />
+                    </div>
+                    <div className="space-y-2">
+                      <h3 className="heading-3 text-[var(--accent)]">
+                        Image Placeholder
+                      </h3>
+                      <p className="text-[var(--muted-foreground)] text-sm">
+                        Carousel images or Spotify profile card will be added
+                        here
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="mt-8 text-left">
-                <p className="text-small text-[var(--muted-foreground)]">
-                  Thank you for visiting, and I look forward to embarking on
-                  this knowledge-sharing adventure.
-                </p>
-              </div>
-              {/* Social Media Footer - Full Width */}
-              {/* <div className="flex items-center justify-center gap-4 pt-6 border-t border-[var(--border)] flex-wrap mt-8">
-                {socialMedia.map((social, index) => {
-                  const IconComponent = social.icon;
-                  return (
-                    <Link
-                      key={index}
-                      href={social.url}
-                      target="_blank"
-                      className="flex items-center gap-2 text-[var(--muted-foreground)] hover:text-[var(--accent)] transition-colors"
-                    >
-                      <IconComponent className="w-5 h-5" />
-                      <span className="font-medium">{social.name}</span>
-                    </Link>
-                  );
-                })}
-              </div> */}
+            </div>
+            <div className="mt-8 text-left">
+              <p className="text-small text-[var(--muted-foreground)] text-justify">
+                thanks for stopping by! 🤝 hit me up on social media or drop me
+                a message if you wanna connect or collab! or maybe just wanna
+                chat about tech, games, movies, or literally anything. i&apos;m
+                always down to meet new people and vibe ✨
+              </p>
             </div>
           </div>
         </div>
@@ -166,6 +146,18 @@ export default function AboutClient({
         <div className="max-w-6xl mx-auto">
           {/* Single unified card containing tabs and content */}
           <div className=" relative">
+            <div className="mb-8">
+              <div className="flex items-center mb-4">
+                <NotebookPen className="w-7 h-7 text-[var(--accent)] mr-3" />
+                <h2 className="heading-2 text-left">
+                  here&apos;s what i&apos;ve been up to
+                </h2>
+              </div>
+              <p className="text-small text-[var(--muted-foreground)]">
+                basically my life recap - from the tech stack that pays the
+                bills to the places where i learned (and unlearned) stuff
+              </p>
+            </div>
             {/* Tab Navigation */}
             <div className="relative mb-8">
               {/* Background container with gradient border */}

@@ -15,16 +15,29 @@ export default function Contact() {
       description: "Follow me for tech updates and thoughts",
     },
     {
+      name: "LinkedIn",
+      href: "https://linkedin.com/in/rizkyyusfian",
+      iconName: "Linkedin",
+      description: "Connect with me professionally",
+    },
+    {
       name: "GitHub",
       href: "https://github.com/rizkyyusfian",
       iconName: "Github",
       description: "Check out my code and open source projects",
     },
+
     {
-      name: "LinkedIn",
-      href: "https://linkedin.com/in/rizkyyusfian",
-      iconName: "Linkedin",
-      description: "Connect with me professionally",
+      name: "Discord",
+      href: "https://discord.com/users/xxmryyx",
+      iconName: "MessageCircle",
+      description: "Let's chat and play games together",
+    },
+    {
+      name: "Steam",
+      href: "hhttps://steamcommunity.com/id/rizkyyusfian/",
+      iconName: "Gamepad2",
+      description: "Join me for gaming sessions",
     },
   ];
 
