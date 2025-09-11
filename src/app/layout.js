@@ -3,6 +3,8 @@ import "./globals.css";
 import ClientThemeProvider from "../components/ClientThemeProvider";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const roboto = Roboto({
   variable: "--font-roboto",
@@ -86,6 +88,8 @@ export default function RootLayout({ children }) {
             <Footer />
           </div>
         </ClientThemeProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
