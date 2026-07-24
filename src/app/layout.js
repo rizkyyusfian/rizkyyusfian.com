@@ -20,6 +20,8 @@ const robotoMono = Roboto_Mono({
   display: "swap",
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://rizkyyusfian.dev";
+
 export const metadata = {
   title: "Rizky Yusfian - Software Engineer & Full-Stack Developer",
   description:
@@ -43,12 +45,12 @@ export const metadata = {
     shortcut: "/favicon.ico",
     apple: "/favicon.ico",
   },
-  metadataBase: new URL("https://rizkyyusfian.com"),
+  metadataBase: new URL(siteUrl),
   openGraph: {
     title: "Rizky Yusfian - Software Engineer & Full-Stack Developer",
     description:
       "Personal website of Rizky Yusfian - Software Engineer specializing in React, Next.js, Node.js, and Laravel.",
-    url: "https://rizkyyusfian.com",
+    url: siteUrl,
     siteName: "Rizky Yusfian",
     locale: "en_US",
     type: "website",
