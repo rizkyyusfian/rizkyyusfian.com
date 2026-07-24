@@ -58,7 +58,7 @@ export const metadata = {
     title: "Rizky Yusfian - Software Engineer & Full-Stack Developer",
     description:
       "Personal website of Rizky Yusfian - Software Engineer specializing in React, Next.js, Node.js, and Laravel.",
-    creator: "@rizkyyusfian",
+    creator: "@xxmryyx",
   },
   robots: {
     index: true,

@@ -35,15 +35,6 @@ export default function Logo({
       ? "/images/logo/lightlogo.png"
       : "/images/logo/darklogo.png";
 
-  console.log(
-    "Logo Debug - Theme:",
-    theme,
-    "Source:",
-    logoSrc,
-    "Mounted:",
-    mounted
-  );
-
   return (
     <div className={className}>
       <Image
@@ -59,12 +50,6 @@ export default function Logo({
           height: "auto",
           maxWidth: width,
           maxHeight: height,
-        }}
-        onError={(e) => {
-          console.error("Logo failed to load:", logoSrc, e);
-        }}
-        onLoad={() => {
-          console.log("Logo loaded successfully:", logoSrc);
         }}
       />
     </div>

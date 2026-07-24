@@ -372,7 +372,7 @@ export default function About() {
     },
     {
       name: "Twitter",
-      url: "https://twitter.com/rizkyyusfian",
+      url: "https://twitter.com/xxmryyx",
       iconName: "Twitter",
     },
     {

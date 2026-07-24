@@ -10,7 +10,7 @@ export default function Contact() {
     },
     {
       name: "Twitter",
-      href: "https://twitter.com/rizkyyusfian",
+      href: "https://twitter.com/xxmryyx",
       iconName: "Twitter",
       description: "Follow me for tech updates and thoughts",
     },
@@ -35,7 +35,7 @@ export default function Contact() {
     },
     {
       name: "Steam",
-      href: "hhttps://steamcommunity.com/id/rizkyyusfian/",
+      href: "https://steamcommunity.com/id/rizkyyusfian/",
       iconName: "Gamepad2",
       description: "Join me for gaming sessions",
     },

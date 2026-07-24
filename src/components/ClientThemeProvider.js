@@ -29,7 +29,6 @@ export default function ClientThemeProvider({ children }) {
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
-    console.log("Theme toggle - Current:", theme, "New:", newTheme);
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme);
     document.documentElement.setAttribute("data-theme", newTheme);

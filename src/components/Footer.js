@@ -22,7 +22,7 @@ export default function Footer() {
     },
     {
       name: "Email",
-      href: "mailto:rizkyyusfian16@gmail.com",
+      href: "mailto:rizky.yusfian16@gmail.com",
       icon: Mail,
     },
   ];
