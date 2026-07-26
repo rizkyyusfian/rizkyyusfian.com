@@ -3,44 +3,22 @@ import { Icon } from 'astro-icon/components';
 import { useTranslations } from '@i18n/utils';
 import type { Lang } from '@i18n/ui';
 import { now } from '../siteConfig';
+import SpotifyWidget from './widgets/SpotifyWidget.astro';
+import GithubWidget from './widgets/GithubWidget.astro';
+import AnalyticsWidget from './widgets/AnalyticsWidget.astro';
 
 interface Props {
   lang: Lang;
 }
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-
-// Deterministic placeholder contribution grid (real GitHub data lands in Phase 2).
-let seed = 20260726;
-const rand = () => {
-  seed = (seed * 1103515245 + 12345) & 0x7fffffff;
-  return seed / 0x7fffffff;
-};
-const cells = Array.from({ length: 18 * 7 }, () => {
-  const r = rand();
-  return r < 0.42 ? 0 : r < 0.66 ? 1 : r < 0.85 ? 2 : r < 0.95 ? 3 : 4;
-});
 ---
 
 <aside class="live" aria-label="Live sidebar">
-  {/* 1 — Spotify (live via /api/spotify.json; graceful idle until creds/playback) */}
-  <div class="widget"
-    data-sp-nowplaying={t('widget.nowPlaying')}
-    data-sp-recent={t('widget.recentlyPlayed')}>
-    <div class="nowlabel"><span class="live-dot"></span> <span data-sp-label>{t('widget.nowPlaying')}</span></div>
-    <a class="spotify" data-sp-card hidden target="_blank" rel="noopener">
-      <span class="cover" data-sp-cover><Icon name="lucide:music" /></span>
-      <span class="t">
-        <span class="song" data-sp-title></span>
-        <span class="artist" data-sp-artist></span>
-      </span>
-    </a>
-    <div class="spotify idle" data-sp-idle>
-      <Icon name="lucide:music" /> <span>{t('widget.notPlaying')}</span>
-    </div>
-  </div>
+  {/* 1 — Spotify */}
+  <SpotifyWidget lang={lang} />
 
-  {/* 2 — Local time (real client clock) + live weather */}
+  {/* 2 — Local time + weather */}
   <div class="widget">
     <h4>{t('widget.localtime')}</h4>
     <div class="tw">
@@ -52,25 +30,13 @@ const cells = Array.from({ length: 18 * 7 }, () => {
     </div>
   </div>
 
-  {/* 3 — GitHub contributions (live via /api/github.json) */}
-  <div class="widget">
-    <h4>{t('widget.contributions')}</h4>
-    <div class="ghstat"><b data-gh-total>—</b><span>@rizkyyusfian</span></div>
-    <div class="contrib" data-gh-grid>
-      {cells.map((l) => <i data-l={l}></i>)}
-    </div>
-  </div>
+  {/* 3 — GitHub contributions */}
+  <GithubWidget lang={lang} />
 
-  {/* 4 — Analytics (placeholder until Phase 2) */}
-  <div class="widget">
-    <h4>{t('widget.analytics')}</h4>
-    <div class="stats">
-      <div class="stat"><b data-stat-views>—</b><span>views</span></div>
-      <div class="stat"><b data-stat-visitors>—</b><span>visitors</span></div>
-    </div>
-  </div>
+  {/* 4 — Analytics */}
+  <AnalyticsWidget lang={lang} />
 
-  {/* 5 — Now (merged status + media, hand-edited, real) */}
+  {/* 5 — Now (merged status + media) */}
   <div class="widget">
     <h4>{t('widget.now')}</h4>
     <div class="nowline"><span class="k">{t('now.building')}</span><span>{now.building}</span></div>

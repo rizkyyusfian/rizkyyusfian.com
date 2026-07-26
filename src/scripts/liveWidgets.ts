@@ -47,10 +47,12 @@ export function initLiveWidgets(): void {
             cover.style.backgroundImage = `url("${d.image}")`;
             cover.classList.add('has-art');
           }
+          const eq = spWidget.querySelector('[data-sp-eq]') as HTMLElement | null;
           if (label)
             label.textContent = d.playing
               ? spWidget.getAttribute('data-sp-nowplaying')
               : spWidget.getAttribute('data-sp-recent');
+          if (eq) eq.hidden = !d.playing;
           card.hidden = false;
           if (idle) idle.hidden = true;
         })
@@ -59,35 +61,86 @@ export function initLiveWidgets(): void {
     setInterval(paint, 45000);
   }
 
-  // --- GitHub contributions ---
-  if (document.querySelector('[data-gh-grid],[data-gh-total]')) {
+  // --- GitHub contributions (interactive: click a day for its count) ---
+  const gridEl = document.querySelector('[data-gh-grid]');
+  if (gridEl || document.querySelector('[data-gh-total]')) {
     fetch('/api/github.json')
       .then((r) => r.json())
       .then((d) => {
         if (!d || !d.ok) return;
         const total = document.querySelector('[data-gh-total]');
         if (total) total.textContent = fmt.format(d.total);
-        const grid = document.querySelector('[data-gh-grid]');
-        if (grid && Array.isArray(d.grid)) {
-          const cells = grid.querySelectorAll('i');
-          d.grid.forEach((lvl: number, i: number) => {
-            if (cells[i]) cells[i].setAttribute('data-l', String(lvl));
-          });
-        }
+        if (!gridEl || !Array.isArray(d.grid)) return;
+
+        const cells = gridEl.querySelectorAll('i');
+        d.grid.forEach((cell: { l: number; c: number; d: string }, i: number) => {
+          const el = cells[i] as HTMLElement | undefined;
+          if (!el) return;
+          el.setAttribute('data-l', String(cell.l));
+          if (cell.d) {
+            el.dataset.count = String(cell.c);
+            el.dataset.date = cell.d;
+            el.setAttribute('tabindex', '0');
+            el.setAttribute('role', 'gridcell');
+          }
+        });
+
+        const detail = document.querySelector('[data-gh-detail]') as HTMLElement | null;
+        const detailText = document.querySelector('[data-gh-detail-text]');
+        const word = detail?.getAttribute('data-gh-word') || 'contributions';
+        const loc = document.documentElement.lang || 'en';
+        const dateFmt = new Intl.DateTimeFormat(loc, { weekday: 'short', day: 'numeric', month: 'short' });
+
+        const select = (el: HTMLElement) => {
+          if (!el.dataset.date) return;
+          gridEl.querySelectorAll('i.sel').forEach((x) => x.classList.remove('sel'));
+          el.classList.add('sel');
+          const n = Number(el.dataset.count || 0);
+          if (detailText) detailText.textContent = `${dateFmt.format(new Date(el.dataset.date))} · ${fmt.format(n)} ${word}`;
+          if (detail) detail.hidden = false;
+        };
+        const clear = () => {
+          gridEl.querySelectorAll('i.sel').forEach((x) => x.classList.remove('sel'));
+          if (detail) detail.hidden = true;
+        };
+
+        gridEl.addEventListener('click', (e) => {
+          const el = (e.target as HTMLElement).closest('i') as HTMLElement | null;
+          if (el) select(el);
+        });
+        gridEl.addEventListener('keydown', (e) => {
+          const ke = e as KeyboardEvent;
+          if (ke.key !== 'Enter' && ke.key !== ' ') return;
+          const el = (ke.target as HTMLElement).closest('i') as HTMLElement | null;
+          if (el) {
+            ke.preventDefault();
+            select(el);
+          }
+        });
+        document.querySelector('[data-gh-overview]')?.addEventListener('click', clear);
       })
       .catch(() => {});
   }
 
-  // --- Analytics (Umami) ---
+  // --- Analytics (Umami; falls back to share link on the free plan) ---
   if (document.querySelector('[data-stat-views],[data-stat-visitors]')) {
     fetch('/api/stats.json')
       .then((r) => r.json())
       .then((d) => {
-        if (!d || !d.ok) return;
-        const v = document.querySelector('[data-stat-views]');
-        const u = document.querySelector('[data-stat-visitors]');
-        if (v) v.textContent = fmt.format(d.views);
-        if (u) u.textContent = fmt.format(d.visitors);
+        if (d && d.ok) {
+          const v = document.querySelector('[data-stat-views]');
+          const u = document.querySelector('[data-stat-visitors]');
+          if (v) v.textContent = fmt.format(d.views);
+          if (u) u.textContent = fmt.format(d.visitors);
+          return;
+        }
+        // No stats API → show the public share dashboard link if configured.
+        const link = document.querySelector('[data-stat-link]') as HTMLElement | null;
+        const nums = document.querySelector('[data-stat-nums]') as HTMLElement | null;
+        if (link) {
+          link.hidden = false;
+          if (nums) nums.hidden = true;
+        }
       })
       .catch(() => {});
   }

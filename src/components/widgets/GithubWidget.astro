@@ -1,0 +1,28 @@
+---
+import { useTranslations } from '@i18n/utils';
+import type { Lang } from '@i18n/ui';
+import { site } from '../../siteConfig';
+
+const { lang } = Astro.props as { lang: Lang };
+const t = useTranslations(lang);
+
+// Deterministic placeholder grid (client swaps in real per-day data).
+let seed = 20260726;
+const rand = () => ((seed = (seed * 1103515245 + 12345) & 0x7fffffff), seed / 0x7fffffff);
+const cells = Array.from({ length: 18 * 7 }, () => {
+  const r = rand();
+  return r < 0.42 ? 0 : r < 0.66 ? 1 : r < 0.85 ? 2 : r < 0.95 ? 3 : 4;
+});
+---
+
+<div class="widget gh-widget">
+  <h4>{t('widget.contributions')}</h4>
+  <div class="ghstat"><b data-gh-total>—</b><span>@{site.githubUser} · 12mo</span></div>
+  <div class="contrib" data-gh-grid role="grid" aria-label="Contribution graph">
+    {cells.map((l) => <i data-l={l}></i>)}
+  </div>
+  <div class="gh-detail" data-gh-detail data-gh-word={t('widget.contributions')} hidden>
+    <span class="gh-detail-text" data-gh-detail-text></span>
+    <button type="button" class="gh-overview" data-gh-overview>{t('writing.viewAll')}</button>
+  </div>
+</div>

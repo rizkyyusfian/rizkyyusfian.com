@@ -19,7 +19,7 @@ export const GET: APIRoute = async () => {
   const query = `query($login:String!){
     user(login:$login){ contributionsCollection{ contributionCalendar{
       totalContributions
-      weeks{ contributionDays{ contributionCount weekday } }
+      weeks{ contributionDays{ contributionCount date weekday } }
     }}}
   }`;
 
@@ -34,14 +34,20 @@ export const GET: APIRoute = async () => {
     const cal = json?.data?.user?.contributionsCollection?.contributionCalendar;
     if (!cal) throw new Error('no calendar');
 
-    const weeks: { contributionCount: number; weekday: number }[][] = cal.weeks;
+    type Day = { contributionCount: number; date: string; weekday: number };
+    const weeks: Day[][] = cal.weeks;
     const lastWeeks = weeks.slice(-WEEKS);
 
-    // Row-major 7×WEEKS grid: index = weekday * WEEKS + weekColumn
-    const grid: number[] = new Array(7 * WEEKS).fill(0);
+    // Row-major 7×WEEKS grid: index = weekday * WEEKS + weekColumn.
+    // Each cell carries level (l), raw count (c) and ISO date (d).
+    const grid = new Array(7 * WEEKS).fill(null).map(() => ({ l: 0, c: 0, d: '' }));
     lastWeeks.forEach((week, col) => {
       week.contributionDays.forEach((day) => {
-        grid[day.weekday * WEEKS + col] = level(day.contributionCount);
+        grid[day.weekday * WEEKS + col] = {
+          l: level(day.contributionCount),
+          c: day.contributionCount,
+          d: day.date,
+        };
       });
     });
 

@@ -1,0 +1,29 @@
+---
+import { Icon } from 'astro-icon/components';
+import { useTranslations } from '@i18n/utils';
+import type { Lang } from '@i18n/ui';
+
+const { lang } = Astro.props as { lang: Lang };
+const t = useTranslations(lang);
+---
+
+<div class="widget sp-widget" data-sp-nowplaying={t('widget.nowPlaying')} data-sp-recent={t('widget.recentlyPlayed')}>
+  <div class="nowlabel">
+    <Icon name="simple-icons:spotify" class="sp-mark" />
+    <span data-sp-label>{t('widget.nowPlaying')}</span>
+    <span class="eq" data-sp-eq hidden aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+  </div>
+
+  <a class="spotify" data-sp-card hidden target="_blank" rel="noopener">
+    <span class="cover" data-sp-cover><Icon name="lucide:music" /></span>
+    <span class="t">
+      <span class="song" data-sp-title></span>
+      <span class="artist" data-sp-artist></span>
+    </span>
+  </a>
+
+  <div class="spotify idle" data-sp-idle>
+    <span class="cover idle-cover"><Icon name="lucide:music" /></span>
+    <span class="t"><span class="song muted">{t('widget.notPlaying')}</span></span>
+  </div>
+</div>

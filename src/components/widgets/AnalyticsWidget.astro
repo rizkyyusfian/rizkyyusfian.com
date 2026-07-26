@@ -1,0 +1,25 @@
+---
+import { Icon } from 'astro-icon/components';
+import { useTranslations } from '@i18n/utils';
+import type { Lang } from '@i18n/ui';
+
+const { lang } = Astro.props as { lang: Lang };
+const t = useTranslations(lang);
+
+// Public share dashboard link — used as the free-plan fallback when the
+// stats API isn't available (no paid key / self-host token).
+const shareUrl = import.meta.env.PUBLIC_UMAMI_SHARE_URL;
+---
+
+<div class="widget">
+  <h4>{t('widget.analytics')}</h4>
+  <div class="stats" data-stat-nums>
+    <div class="stat"><b data-stat-views>—</b><span>views</span></div>
+    <div class="stat"><b data-stat-visitors>—</b><span>visitors</span></div>
+  </div>
+  {shareUrl && (
+    <a class="stat-link" data-stat-link href={shareUrl} hidden target="_blank" rel="noopener">
+      <Icon name="lucide:external-link" /> {t('widget.viewStats')} →
+    </a>
+  )}
+</div>
