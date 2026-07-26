@@ -1,5 +1,6 @@
 ---
-import PageStub from "@components/views/PageStub.astro";
+import CollectionView from "@components/views/CollectionView.astro";
+import { games } from "@/data/games";
 ---
 
-<PageStub lang="en" titleKey="nav.games" crumb="games" term="~/collections/games" icon="lucide:gamepad-2" />
+<CollectionView lang="en" titleKey="nav.games" crumb="games" term="~/collections/games" icon="lucide:gamepad-2" items={games} />

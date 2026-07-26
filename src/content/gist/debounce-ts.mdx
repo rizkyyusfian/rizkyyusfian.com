@@ -1,0 +1,28 @@
+---
+title: A tiny typed debounce
+description: A dependency-free debounce in TypeScript that keeps argument types intact.
+pubDate: 2026-07-12
+tags: ['typescript', 'utils']
+---
+
+I reach for this constantly — a `debounce` that preserves the wrapped
+function's parameter types:
+
+```ts
+export function debounce<A extends unknown[]>(
+  fn: (...args: A) => void,
+  ms = 300,
+) {
+  let timer: ReturnType<typeof setTimeout>;
+  return (...args: A) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), ms);
+  };
+}
+```
+
+Usage:
+
+```ts
+const onSearch = debounce((q: string) => fetchResults(q), 250);
+```

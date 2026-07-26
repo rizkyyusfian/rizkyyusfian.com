@@ -15,6 +15,8 @@ const cards = [
   { key: 'nav.books', path: '/collections/books', icon: 'lucide:book-open' },
   { key: 'nav.film', path: '/collections/film', icon: 'lucide:clapperboard' },
   { key: 'nav.games', path: '/collections/games', icon: 'lucide:gamepad-2' },
+  { key: 'nav.music', path: '/collections/music', icon: 'lucide:music' },
+  { key: 'nav.hobby', path: '/collections/hobby', icon: 'lucide:sparkles' },
 ] as const;
 ---
 
@@ -28,7 +30,6 @@ const cards = [
     {cards.map((c) => (
       <a class="card" href={localizePath(c.path, lang)}>
         <div class="ct"><Icon name={c.icon} /> {t(c.key)}</div>
-        <div class="cd">{t('stub.soon')}</div>
       </a>
     ))}
   </div>

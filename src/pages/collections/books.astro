@@ -1,5 +1,6 @@
 ---
-import PageStub from "@components/views/PageStub.astro";
+import CollectionView from "@components/views/CollectionView.astro";
+import { books } from "@/data/books";
 ---
 
-<PageStub lang="en" titleKey="nav.books" crumb="books" term="~/collections/books" icon="lucide:book-open" />
+<CollectionView lang="en" titleKey="nav.books" crumb="books" term="~/collections/books" icon="lucide:book-open" items={books} />

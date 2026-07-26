@@ -1,0 +1,37 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { useTranslations, localizePath } from '@i18n/utils';
+import type { Lang } from '@i18n/ui';
+import type { Gist } from '@/lib/gist';
+
+interface Props {
+  lang: Lang;
+  entry: Gist;
+}
+const { lang, entry } = Astro.props;
+const t = useTranslations(lang);
+const { Content } = await render(entry);
+const dateFmt = new Intl.DateTimeFormat(lang === 'id' ? 'id-ID' : 'en-US', {
+  year: 'numeric', month: 'short', day: 'numeric',
+}).format(entry.data.pubDate);
+---
+
+<BaseLayout lang={lang} title={entry.data.title} variant="page" termPath={`~/gist/${entry.id}.md`}>
+  <div class="crumbs">
+    <a href={localizePath('/gist', lang)}>gist</a><span class="sep">/</span><span class="cur2">{entry.id}</span>
+  </div>
+  <article class="article">
+    <h1>{entry.data.title}</h1>
+    <div class="pmeta">
+      <span>{dateFmt}</span>
+      {entry.data.tags.length > 0 && (
+        <span class="pmeta-tags">{entry.data.tags.map((tag) => <a href={localizePath(`/tags/${tag}`, lang)}>#{tag}</a>)}</span>
+      )}
+    </div>
+    <div class="prose"><Content /></div>
+    <div class="artfoot">
+      <a href={localizePath('/gist', lang)}>← {t('nav.gist')}</a>
+    </div>
+  </article>
+</BaseLayout>

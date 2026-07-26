@@ -41,7 +41,15 @@ export const navTree: NavNode[] = [
     ],
   },
   { type: 'file', name: 'projects', ext: 'astro', path: '/projects' },
-  { type: 'file', name: 'gist', ext: 'astro', path: '/gist' },
+  {
+    type: 'folder',
+    name: 'gist',
+    open: false,
+    children: [
+      { type: 'file', name: 'index', ext: 'astro', path: '/gist' },
+      { type: 'file', name: '[slug]', ext: 'astro', path: null },
+    ],
+  },
   {
     type: 'folder',
     name: 'about',
@@ -59,6 +67,8 @@ export const navTree: NavNode[] = [
       { type: 'file', name: 'books', ext: 'md', path: '/collections/books' },
       { type: 'file', name: 'film', ext: 'md', path: '/collections/film' },
       { type: 'file', name: 'games', ext: 'md', path: '/collections/games' },
+      { type: 'file', name: 'music', ext: 'md', path: '/collections/music' },
+      { type: 'file', name: 'hobby', ext: 'md', path: '/collections/hobby' },
     ],
   },
   { type: 'file', name: 'search', ext: 'astro', path: '/search' },

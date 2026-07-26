@@ -1,0 +1,23 @@
+---
+title: Git worktrees for parallel branches
+description: Work on two branches at once without stashing — each in its own folder.
+pubDate: 2026-06-25
+tags: ['git', 'workflow']
+---
+
+Instead of stashing to switch branches, check a branch out into a *separate*
+working directory:
+
+```bash
+# create a new worktree for an existing branch
+git worktree add ../myrepo-hotfix hotfix
+
+# ...or a brand-new branch
+git worktree add -b feature/x ../myrepo-x
+
+# list and clean up
+git worktree list
+git worktree remove ../myrepo-hotfix
+```
+
+Each worktree shares the same `.git`, so it's cheap — no re-clone.

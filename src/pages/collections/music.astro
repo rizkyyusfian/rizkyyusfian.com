@@ -1,0 +1,6 @@
+---
+import CollectionView from "@components/views/CollectionView.astro";
+import { music } from "@/data/music";
+---
+
+<CollectionView lang="en" titleKey="nav.music" crumb="music" term="~/collections/music" icon="lucide:music" items={music} />

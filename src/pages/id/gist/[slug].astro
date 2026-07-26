@@ -1,0 +1,8 @@
+---
+import GistView from "@components/views/GistView.astro";
+import { getGistParams } from "@/lib/gist";
+export async function getStaticPaths() { return getGistParams(); }
+const { entry } = Astro.props;
+---
+
+<GistView lang="id" entry={entry} />

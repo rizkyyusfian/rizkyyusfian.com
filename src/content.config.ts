@@ -30,4 +30,20 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { blog };
+/**
+ * Gist collection — code snippets and things worth saving. Language-neutral
+ * (a snippet is the same in EN and ID), so no per-language pairing here.
+ */
+const gist = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/gist' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDate: z.coerce.date(),
+    tags: z.array(z.string()).default([]),
+    lang: z.string().optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { blog, gist };
