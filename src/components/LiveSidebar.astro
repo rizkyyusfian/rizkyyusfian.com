@@ -23,10 +23,19 @@ const cells = Array.from({ length: 18 * 7 }, () => {
 ---
 
 <aside class="live" aria-label="Live sidebar">
-  {/* 1 — Spotify (placeholder until /api/spotify in Phase 2) */}
-  <div class="widget">
-    <div class="nowlabel"><span class="live-dot"></span> {t('widget.nowPlaying')}</div>
-    <div class="spotify idle">
+  {/* 1 — Spotify (live via /api/spotify.json; graceful idle until creds/playback) */}
+  <div class="widget"
+    data-sp-nowplaying={t('widget.nowPlaying')}
+    data-sp-recent={t('widget.recentlyPlayed')}>
+    <div class="nowlabel"><span class="live-dot"></span> <span data-sp-label>{t('widget.nowPlaying')}</span></div>
+    <a class="spotify" data-sp-card hidden target="_blank" rel="noopener">
+      <span class="cover" data-sp-cover><Icon name="lucide:music" /></span>
+      <span class="t">
+        <span class="song" data-sp-title></span>
+        <span class="artist" data-sp-artist></span>
+      </span>
+    </a>
+    <div class="spotify idle" data-sp-idle>
       <Icon name="lucide:music" /> <span>{t('widget.notPlaying')}</span>
     </div>
   </div>
@@ -82,6 +91,40 @@ const cells = Array.from({ length: 18 * 7 }, () => {
   }
   tick();
   setInterval(tick, 15000);
+
+  // --- Live Spotify now-playing ---
+  const spWidget = document.querySelector('[data-sp-nowplaying]');
+  if (spWidget) {
+    const paintSpotify = () =>
+      fetch('/api/spotify.json')
+        .then((r) => r.json())
+        .then((d) => {
+          if (!d || (!d.playing && !d.recent)) return; // keep idle
+          const card = spWidget.querySelector('[data-sp-card]') as HTMLAnchorElement | null;
+          const idle = spWidget.querySelector('[data-sp-idle]') as HTMLElement | null;
+          const label = spWidget.querySelector('[data-sp-label]');
+          const cover = spWidget.querySelector('[data-sp-cover]') as HTMLElement | null;
+          const title = spWidget.querySelector('[data-sp-title]');
+          const artist = spWidget.querySelector('[data-sp-artist]');
+          if (!card) return;
+          if (title) title.textContent = d.title ?? '';
+          if (artist) artist.textContent = d.artist ?? '';
+          if (d.url) card.href = d.url;
+          if (cover && d.image) {
+            cover.style.backgroundImage = `url("${d.image}")`;
+            cover.classList.add('has-art');
+          }
+          if (label)
+            label.textContent = d.playing
+              ? spWidget.getAttribute('data-sp-nowplaying')
+              : spWidget.getAttribute('data-sp-recent');
+          card.hidden = false;
+          if (idle) idle.hidden = true;
+        })
+        .catch(() => {});
+    paintSpotify();
+    setInterval(paintSpotify, 45000);
+  }
 
   // --- Live GitHub contributions ---
   fetch('/api/github.json')
