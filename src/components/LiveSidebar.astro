@@ -1,0 +1,85 @@
+---
+import { Icon } from 'astro-icon/components';
+import { useTranslations } from '@i18n/utils';
+import type { Lang } from '@i18n/ui';
+import { now } from '../siteConfig';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+// Deterministic placeholder contribution grid (real GitHub data lands in Phase 2).
+let seed = 20260726;
+const rand = () => {
+  seed = (seed * 1103515245 + 12345) & 0x7fffffff;
+  return seed / 0x7fffffff;
+};
+const cells = Array.from({ length: 18 * 7 }, () => {
+  const r = rand();
+  return r < 0.42 ? 0 : r < 0.66 ? 1 : r < 0.85 ? 2 : r < 0.95 ? 3 : 4;
+});
+---
+
+<aside class="live" aria-label="Live sidebar">
+  {/* 1 — Spotify (placeholder until /api/spotify in Phase 2) */}
+  <div class="widget">
+    <div class="nowlabel"><span class="live-dot"></span> {t('widget.nowPlaying')}</div>
+    <div class="spotify idle">
+      <Icon name="lucide:music" /> <span>{t('widget.notPlaying')}</span>
+    </div>
+  </div>
+
+  {/* 2 — Local time (real client clock) */}
+  <div class="widget">
+    <h4>{t('widget.localtime')}</h4>
+    <div class="tw">
+      <div>
+        <div class="clock" data-clock>—</div>
+        <div class="place">Sorong · WIT</div>
+      </div>
+      <div class="temp"><b>—</b><span>Phase 2</span></div>
+    </div>
+  </div>
+
+  {/* 3 — GitHub contributions (placeholder grid until Phase 2) */}
+  <div class="widget">
+    <h4>{t('widget.contributions')}</h4>
+    <div class="ghstat"><b>—</b><span>@rizkyyusfian</span></div>
+    <div class="contrib">
+      {cells.map((l) => <i data-l={l}></i>)}
+    </div>
+  </div>
+
+  {/* 4 — Analytics (placeholder until Phase 2) */}
+  <div class="widget">
+    <h4>{t('widget.analytics')}</h4>
+    <div class="stats">
+      <div class="stat"><b>—</b><span>views</span></div>
+      <div class="stat"><b>—</b><span>visitors</span></div>
+    </div>
+  </div>
+
+  {/* 5 — Now (merged status + media, hand-edited, real) */}
+  <div class="widget">
+    <h4>{t('widget.now')}</h4>
+    <div class="nowline"><span class="k">{t('now.building')}</span><span>{now.building}</span></div>
+    <div class="cur"><span class="emo"><Icon name="lucide:book-open" /></span><div><div class="ck">{t('currently.reading')}</div><div class="ct">{now.reading}</div></div></div>
+    <div class="cur"><span class="emo"><Icon name="lucide:clapperboard" /></span><div><div class="ck">{t('currently.watching')}</div><div class="ct">{now.watching}</div></div></div>
+    <div class="cur"><span class="emo"><Icon name="lucide:gamepad-2" /></span><div><div class="ck">{t('currently.playing')}</div><div class="ct">{now.playing}</div></div></div>
+  </div>
+</aside>
+
+<script>
+  // Sorong = WIT = UTC+9
+  function tick() {
+    const now = new Date();
+    const wit = new Date(now.getTime() + now.getTimezoneOffset() * 60000 + 9 * 3600000);
+    const hh = String(wit.getHours()).padStart(2, '0');
+    const mm = String(wit.getMinutes()).padStart(2, '0');
+    document.querySelectorAll('[data-clock]').forEach((c) => (c.textContent = `${hh}:${mm}`));
+  }
+  tick();
+  setInterval(tick, 15000);
+</script>

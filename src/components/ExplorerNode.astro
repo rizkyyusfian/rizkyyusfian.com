@@ -1,0 +1,70 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { NavNode } from '../nav';
+import { localizePath, type Lang } from '@i18n/utils';
+import type { Lang as LangT } from '@i18n/ui';
+
+interface Props {
+  node: NavNode;
+  lang: LangT;
+  currentPath: string;
+}
+const { node, lang, currentPath } = Astro.props;
+
+const norm = (p: string) => (p.length > 1 ? p.replace(/\/$/, '') : p);
+const cur = norm(currentPath);
+
+const iconFor = (ext: string) =>
+  ext === 'astro'
+    ? { name: 'simple-icons:astro', cls: 'ico-astro' }
+    : ext === 'tsx'
+      ? { name: 'lucide:atom', cls: 'ico-tsx' }
+      : { name: 'lucide:file-text', cls: 'ico-md' };
+
+function nodeIsActive(n: NavNode): boolean {
+  if (n.type === 'file') return !!n.path && norm(localizePath(n.path, lang as Lang)) === cur;
+  return n.children.some(nodeIsActive);
+}
+---
+
+{
+  node.type === 'file' ? (
+    node.path ? (
+      <a class:list={['exp-item', 'leaf', { on: nodeIsActive(node) }]} href={localizePath(node.path, lang as Lang)}>
+        <span class="exp-chev" />
+        <span class:list={['exp-ico', iconFor(node.ext).cls]}>
+          <Icon name={iconFor(node.ext).name} />
+        </span>
+        {node.name}
+        <span class="fext">.{node.ext}</span>
+      </a>
+    ) : (
+      <div class="exp-item leaf dim" aria-hidden="true">
+        <span class="exp-chev" />
+        <span class:list={['exp-ico', iconFor(node.ext).cls]}>
+          <Icon name={iconFor(node.ext).name} />
+        </span>
+        {node.name}
+        <span class="fext">.{node.ext}</span>
+      </div>
+    )
+  ) : (
+    <div class:list={['folder', { open: node.open || nodeIsActive(node) }]}>
+      <button type="button" class="exp-item folder-toggle" aria-expanded={node.open || nodeIsActive(node) ? 'true' : 'false'}>
+        <span class="exp-chev">
+          <Icon name="lucide:chevron-right" />
+        </span>
+        <span class="exp-ico ico-folder">
+          <Icon name="lucide:folder" class="folder-closed" />
+          <Icon name="lucide:folder-open" class="folder-opened" />
+        </span>
+        {node.name}
+      </button>
+      <div class="exp-children">
+        {node.children.map((child) => (
+          <Astro.self node={child} lang={lang} currentPath={currentPath} />
+        ))}
+      </div>
+    </div>
+  )
+}

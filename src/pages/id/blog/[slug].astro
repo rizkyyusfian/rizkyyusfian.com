@@ -1,0 +1,12 @@
+---
+import PostView from '@components/views/PostView.astro';
+import { getRoutesForLang } from '../../../lib/blog';
+
+export async function getStaticPaths() {
+  return getRoutesForLang('id');
+}
+
+const { entry, slug } = Astro.props;
+---
+
+<PostView entry={entry} slug={slug} lang="id" />

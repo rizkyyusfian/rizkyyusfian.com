@@ -1,0 +1,42 @@
+---
+import ExplorerNode from './ExplorerNode.astro';
+import { navTree } from '../nav';
+import { localizePath } from '@i18n/utils';
+import type { Lang } from '@i18n/ui';
+
+interface Props {
+  lang: Lang;
+  currentPath: string;
+}
+const { lang, currentPath } = Astro.props;
+const homeHref = localizePath('/', lang);
+---
+
+<nav class="explorer-nav" aria-label="Site">
+  <a class="brand" href={homeHref} aria-label="Home">
+    <img class="brand-logo logo-light" src="/images/logo/lightlogo.svg" alt="MRYY" width="30" height="30" />
+    <img class="brand-logo logo-dark" src="/images/logo/darklogo.svg" alt="MRYY" width="30" height="30" />
+    <span class="who">
+      <b>~/rizkyyusfian</b>
+      <span>main ✔</span>
+    </span>
+  </a>
+
+  <div class="exp-head">SOURCE</div>
+
+  <div class="explorer">
+    {navTree.map((node) => <ExplorerNode node={node} lang={lang} currentPath={currentPath} />)}
+  </div>
+</nav>
+
+<script>
+  // Collapsible folders
+  document.querySelectorAll('.folder-toggle').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const folder = btn.closest('.folder');
+      if (!folder) return;
+      const open = folder.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
+</script>

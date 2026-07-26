@@ -1,0 +1,72 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PostRow from '@components/PostRow.astro';
+import { useTranslations, localizePath } from '@i18n/utils';
+import type { Lang } from '@i18n/ui';
+import { getPosts } from '../../lib/blog';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const blogPosts = (await getPosts(lang, 'blog')).slice(0, 4);
+const notePosts = (await getPosts(lang, 'note')).slice(0, 4);
+
+const tagline = t('home.tagline');
+const accentWord = lang === 'id' ? 'ruang digital' : 'digital space';
+const taglineHtml = tagline.replace(accentWord, `<span class="accent">${accentWord}</span>`);
+---
+
+<BaseLayout lang={lang} title={t('home.tagline')} variant="home" termPath="~/rizkyyusfian">
+  <div class="cli-line"><span class="pr">❯</span> <span class="usr">rizky</span> whoami</div>
+  <div class="cli-out">{t('home.whoami')}</div>
+
+  <div class="cli-line"><span class="pr">❯</span> cat <span class="flag">welcome.txt</span></div>
+  <div class="hero" style="margin:4px 0 20px">
+    <h1 set:html={taglineHtml} />
+    <p><span class="cli-comment"># </span>{t('home.intro')}</p>
+    <div class="tags">
+      <span class="chip">TypeScript</span>
+      <span class="chip">Machine Learning</span>
+      <span class="chip">Astro</span>
+      <span class="chip">Vercel</span>
+    </div>
+  </div>
+
+  <div class="cli-line"><span class="pr">❯</span> ls ~/writing/latest <span class="cli-comment"># {t('home.latest')}</span></div>
+  <div class="section-head">
+    <div class="tabs" role="tablist">
+      <button class="on" data-tab="blog" role="tab" aria-selected="true">{t('writing.blog')}</button>
+      <button data-tab="note" role="tab" aria-selected="false">{t('writing.notes')}</button>
+    </div>
+    <a class="all" href={localizePath('/blog', lang)}>{t('writing.viewAll')} →</a>
+  </div>
+
+  <div data-panel="blog" style="margin-top:4px">
+    {blogPosts.length ? blogPosts.map((entry) => <PostRow entry={entry} lang={lang} />) : <p class="page-lead">{t('writing.empty')}</p>}
+  </div>
+  <div data-panel="note" hidden style="margin-top:4px">
+    {notePosts.length ? notePosts.map((entry) => <PostRow entry={entry} lang={lang} />) : <p class="page-lead">{t('writing.empty')}</p>}
+  </div>
+
+  <div class="cli-line" style="margin-top:16px"><span class="pr">❯</span><span class="cursor"></span></div>
+</BaseLayout>
+
+<script>
+  const tabs = document.querySelectorAll('[data-tab]');
+  const panels = document.querySelectorAll('[data-panel]');
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const key = tab.getAttribute('data-tab');
+      tabs.forEach((t) => {
+        const on = t === tab;
+        t.classList.toggle('on', on);
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      panels.forEach((p) => {
+        (p as HTMLElement).hidden = p.getAttribute('data-panel') !== key;
+      });
+    });
+  });
+</script>

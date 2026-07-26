@@ -1,0 +1,101 @@
+---
+import { render } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { useTranslations, localizePath, otherLang } from '@i18n/utils';
+import type { Lang } from '@i18n/ui';
+import { readingTime, availableLangs, type Post } from '../../lib/blog';
+
+interface Props {
+  entry: Post | null;
+  slug: string;
+  lang: Lang;
+}
+const { entry, slug, lang } = Astro.props;
+const t = useTranslations(lang);
+const other = otherLang(lang);
+const langs = await availableLangs(slug);
+
+let Content: any = null;
+let headings: { depth: number; slug: string; text: string }[] = [];
+if (entry) {
+  const rendered = await render(entry);
+  Content = rendered.Content;
+  headings = rendered.headings.filter((h) => h.depth === 2 || h.depth === 3);
+}
+
+const title = entry ? entry.data.title : slug;
+const dateFmt = entry
+  ? new Intl.DateTimeFormat(lang === 'id' ? 'id-ID' : 'en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    }).format(entry.data.pubDate)
+  : '';
+const mins = entry ? readingTime(entry) : 0;
+---
+
+<BaseLayout lang={lang} title={title} variant="reading" termPath={`~/blog/${slug}.mdx`} termWin="read">
+  <div class="crumbs">
+    <a href={localizePath('/', lang)}>~</a><span class="sep">/</span>
+    <a href={localizePath('/blog', lang)}>blog</a><span class="sep">/</span>
+    <span class="cur2">{slug}</span>
+  </div>
+
+  <article class="article">
+    <div class="postlang" aria-label={t('lang.switch')}>
+      {['en', 'id'].map((l) =>
+        l === lang ? (
+          <span class="on">{l.toUpperCase()}</span>
+        ) : langs.includes(l as Lang) ? (
+          <a href={localizePath(`/blog/${slug}`, l as Lang)}>{l.toUpperCase()}</a>
+        ) : (
+          <span class="off" aria-disabled="true">{l.toUpperCase()}</span>
+        )
+      )}
+    </div>
+
+    {entry ? (
+      <>
+        <h1>{entry.data.title}</h1>
+        <div class="pmeta">
+          <span>{dateFmt}</span>
+          <span>{mins} {t('writing.readingTime')}</span>
+          {entry.data.tags.length > 0 && <span>{entry.data.tags.map((tag) => `#${tag}`).join(' ')}</span>}
+        </div>
+        <div class="prose">
+          <Content />
+        </div>
+        <div class="artfoot">
+          <a href={localizePath('/blog', lang)}>← {t('post.backToBlog')}</a>
+          <span>{t('post.writtenByMe')} ✍️</span>
+        </div>
+      </>
+    ) : (
+      <>
+        <h1>{slug}</h1>
+        <div class="notice">
+          <Icon name="lucide:languages" />
+          <div>
+            {t('post.notAvailable')}{' '}
+            {langs.includes(other) && (
+              <a href={localizePath(`/blog/${slug}`, other)}>{t('post.readInstead')}</a>
+            )}
+          </div>
+        </div>
+        <p class="page-lead"><a href={localizePath('/blog', lang)}>← {t('post.backToBlog')}</a></p>
+      </>
+    )}
+  </article>
+
+  <nav class="toc" slot="toc" aria-label={t('post.onThisPage')}>
+    {headings.length > 0 && (
+      <>
+        <h5>{t('post.onThisPage')}</h5>
+        {headings.map((h) => (
+          <a href={`#${h.slug}`} class:list={[{ lvl3: h.depth === 3 }]}>{h.text}</a>
+        ))}
+      </>
+    )}
+  </nav>
+</BaseLayout>

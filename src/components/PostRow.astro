@@ -1,0 +1,36 @@
+---
+import { Icon } from 'astro-icon/components';
+import { localizePath } from '@i18n/utils';
+import type { Lang } from '@i18n/ui';
+import { baseSlug, readingTime, availableLangs, type Post } from '../lib/blog';
+
+interface Props {
+  entry: Post;
+  lang: Lang;
+}
+const { entry, lang } = Astro.props;
+
+const slug = baseSlug(entry);
+const langs = await availableLangs(slug);
+const mins = readingTime(entry);
+const isNote = entry.data.kind === 'note';
+const dateFmt = new Intl.DateTimeFormat(lang === 'id' ? 'id-ID' : 'en-US', {
+  month: 'short',
+  day: '2-digit',
+}).format(entry.data.pubDate);
+---
+
+<a class="file-row" href={localizePath(`/blog/${slug}`, lang)}>
+  <span class:list={['ficon', isNote ? 'ico-md' : 'ico-astro']}>
+    <Icon name={isNote ? 'lucide:file-text' : 'lucide:triangle'} />
+  </span>
+  <div class="fmain">
+    <span class="fname">{slug}<span class="fext">.mdx</span></span>
+    <span class="flags">
+      {langs.includes('en') && <b class="en">EN</b>}
+      {langs.includes('id') && <b class="id">ID</b>}
+    </span>
+    <div class="fdesc">{entry.data.description}</div>
+  </div>
+  <span class="fdate">{dateFmt} · {mins}′</span>
+</a>

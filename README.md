@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# rizkyyusfian.com
 
-## Getting Started
+My personal site and digital garden — a clean-sheet rebuild in **Astro + TypeScript**.
+Bilingual (English / Bahasa Indonesia), "Full CLI" visual identity, warm palette,
+light + dark.
 
-First, run the development server:
+## Stack
+
+- **[Astro](https://astro.build)** (hybrid: static pages + on-demand endpoints for live widgets)
+- **TypeScript** (strict)
+- **Tailwind CSS v4** + a token-based design system (`src/styles/global.css`)
+- **MDX** content via Astro Content Collections
+- **astro-icon** + Lucide for all UI icons
+- Deployed on **Vercel**
+
+## Develop
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:4321
+npm run build    # static build → dist/ (+ .vercel/output)
+npm run preview
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Structure
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```
+src/
+  pages/            # routes (EN at /, ID under /id/)
+  layouts/          # BaseLayout — shell, titlebar, 3-column grid
+  components/
+    Explorer.astro      # IDE file-explorer nav (collapsible)
+    LiveSidebar.astro   # homepage live widgets
+    PostRow.astro       # a file-row in listings
+    views/              # one View per page, shared across locales
+  content/blog/     # posts as <slug>.<lang>.mdx  (e.g. my-post.en.mdx / my-post.id.mdx)
+  i18n/             # ui.ts dictionaries + utils.ts helpers
+  lib/blog.ts       # slug pairing, reading time, routes, fallback
+  siteConfig.ts     # hand-edited author data, socials, "now", "currently"
+  nav.ts            # the explorer tree (mirrors src/pages)
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Writing a post
 
-## Learn More
+Create `src/content/blog/<slug>.<lang>.mdx` with frontmatter:
 
-To learn more about Next.js, take a look at the following resources:
+```yaml
+---
+title: ...
+description: ...
+pubDate: 2026-07-18
+kind: blog        # or "note"
+lang: en          # or "id"
+tags: ['astro']
+---
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Author the same `<slug>` in both languages to make it bilingual. If only one
+language exists, the other renders a graceful "not available yet" notice.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Roadmap
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Phase 1 ✅** — foundation, i18n, home + blog + reading pages, about, contact, nav, GitHub/Now widgets (scaffolded)
+- **Phase 2** — live Spotify / analytics / weather endpoints, `/dashboard`, Pagefind search, RSS, tag pages
+- **Phase 3** — collections (film/game/music/books), gist, peripherals/setup
+- **Phase 4** — comments/reactions, polish

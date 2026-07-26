@@ -1,0 +1,42 @@
+---
+title: Building a live dashboard with Astro server islands
+description: Streaming Spotify, GitHub & weather into a static site without shipping a heavy client bundle.
+pubDate: 2026-07-18
+kind: blog
+lang: en
+tags: ['astro', 'performance', 'vercel']
+---
+
+For years my homepage was static in the truest sense: whatever was true at build
+time stayed true until the next deploy. I wanted the right-hand column to feel
+_alive_ — what I'm listening to, my latest commits, the weather in Sorong —
+without shipping a heavy client bundle to every reader.
+
+## The problem with client fetching
+
+The naive approach is to fetch everything in the browser. But that means exposing
+API tokens, a flash of empty widgets on load, and JavaScript that every visitor
+downloads whether they look at the sidebar or not.
+
+> Server islands let a mostly-static page defer just the dynamic parts to the
+> server — rendered on request, streamed in when ready.
+
+## A tiny endpoint
+
+Each live widget gets a small endpoint. Here's the Spotify one, trimmed down:
+
+```ts
+// src/pages/api/spotify.ts
+export const prerender = false;
+
+export const GET = async () => {
+  const token = await refreshToken();
+  const res = await fetch('https://api.spotify.com/v1/me/player', {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return Response.json(await res.json());
+};
+```
+
+The page stays static and instant; only `/api/spotify` runs on request. Best of
+both worlds.
