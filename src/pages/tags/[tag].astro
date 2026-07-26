@@ -1,0 +1,8 @@
+---
+import TagView from "@components/views/TagView.astro";
+import { getTagParams } from "../../lib/tags";
+export async function getStaticPaths() { return getTagParams("en"); }
+const { tag } = Astro.props;
+---
+
+<TagView lang="en" tag={tag} />

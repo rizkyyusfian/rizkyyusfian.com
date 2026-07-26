@@ -31,7 +31,7 @@ const cells = Array.from({ length: 18 * 7 }, () => {
     </div>
   </div>
 
-  {/* 2 — Local time (real client clock) */}
+  {/* 2 — Local time (real client clock) + live weather */}
   <div class="widget">
     <h4>{t('widget.localtime')}</h4>
     <div class="tw">
@@ -39,15 +39,15 @@ const cells = Array.from({ length: 18 * 7 }, () => {
         <div class="clock" data-clock>—</div>
         <div class="place">Sorong · WIT</div>
       </div>
-      <div class="temp"><b>—</b><span>Phase 2</span></div>
+      <div class="temp"><b data-wx-temp>—</b><span data-wx-cond>…</span></div>
     </div>
   </div>
 
-  {/* 3 — GitHub contributions (placeholder grid until Phase 2) */}
+  {/* 3 — GitHub contributions (live via /api/github.json) */}
   <div class="widget">
     <h4>{t('widget.contributions')}</h4>
-    <div class="ghstat"><b>—</b><span>@rizkyyusfian</span></div>
-    <div class="contrib">
+    <div class="ghstat"><b data-gh-total>—</b><span>@rizkyyusfian</span></div>
+    <div class="contrib" data-gh-grid>
       {cells.map((l) => <i data-l={l}></i>)}
     </div>
   </div>
@@ -72,7 +72,7 @@ const cells = Array.from({ length: 18 * 7 }, () => {
 </aside>
 
 <script>
-  // Sorong = WIT = UTC+9
+  // --- Local clock: Sorong = WIT = UTC+9 ---
   function tick() {
     const now = new Date();
     const wit = new Date(now.getTime() + now.getTimezoneOffset() * 60000 + 9 * 3600000);
@@ -82,4 +82,45 @@ const cells = Array.from({ length: 18 * 7 }, () => {
   }
   tick();
   setInterval(tick, 15000);
+
+  // --- Live GitHub contributions ---
+  fetch('/api/github.json')
+    .then((r) => r.json())
+    .then((d) => {
+      if (!d || !d.ok) return;
+      const total = document.querySelector('[data-gh-total]');
+      if (total) total.textContent = new Intl.NumberFormat().format(d.total);
+      const grid = document.querySelector('[data-gh-grid]');
+      if (grid && Array.isArray(d.grid)) {
+        const cells = grid.querySelectorAll('i');
+        d.grid.forEach((lvl: number, i: number) => {
+          if (cells[i]) cells[i].setAttribute('data-l', String(lvl));
+        });
+      }
+    })
+    .catch(() => {});
+
+  // --- Live weather (Open-Meteo, keyless) for Sorong ---
+  const WX: Record<number, string> = {
+    0: 'Clear', 1: 'Mainly clear', 2: 'Partly cloudy', 3: 'Overcast',
+    45: 'Fog', 48: 'Fog', 51: 'Drizzle', 53: 'Drizzle', 55: 'Drizzle',
+    61: 'Rain', 63: 'Rain', 65: 'Heavy rain', 80: 'Showers', 81: 'Showers',
+    82: 'Heavy showers', 95: 'Thunderstorm', 96: 'Thunderstorm', 99: 'Thunderstorm',
+  };
+  fetch(
+    'https://api.open-meteo.com/v1/forecast?latitude=-0.8762&longitude=131.2558&current=temperature_2m,weather_code&timezone=Asia/Jayapura'
+  )
+    .then((r) => r.json())
+    .then((d) => {
+      const c = d && d.current;
+      if (!c) return;
+      const temp = document.querySelector('[data-wx-temp]');
+      const cond = document.querySelector('[data-wx-cond]');
+      if (temp) temp.textContent = `${Math.round(c.temperature_2m)}°`;
+      if (cond) cond.textContent = WX[c.weather_code] ?? '—';
+    })
+    .catch(() => {
+      const cond = document.querySelector('[data-wx-cond]');
+      if (cond) cond.textContent = '—';
+    });
 </script>

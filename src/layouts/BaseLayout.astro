@@ -52,6 +52,7 @@ const targetLabel = lang === 'en' ? 'ID' : 'EN';
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="application/rss+xml" title={`${site.handle} — blog`} href={lang === 'id' ? '/id/rss.xml' : '/rss.xml'} />
     <meta name="generator" content={Astro.generator} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={fullTitle} />

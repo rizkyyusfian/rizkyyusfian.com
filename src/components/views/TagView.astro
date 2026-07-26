@@ -1,0 +1,28 @@
+---
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PostRow from '@components/PostRow.astro';
+import { useTranslations, localizePath } from '@i18n/utils';
+import type { Lang } from '@i18n/ui';
+import { getPostsByTag } from '../../lib/tags';
+
+interface Props {
+  lang: Lang;
+  tag: string;
+}
+const { lang, tag } = Astro.props;
+const t = useTranslations(lang);
+const posts = await getPostsByTag(lang, tag);
+---
+
+<BaseLayout lang={lang} title={`#${tag}`} variant="page" termPath={`~/tags/${tag}`}>
+  <div class="crumbs">
+    <a href={localizePath('/tags', lang)}>tags</a><span class="sep">/</span><span class="cur2">{tag}</span>
+  </div>
+  <h1 class="page-title"><Icon name="lucide:hash" />{tag}</h1>
+  <p class="page-lead">{t('tags.taggedWith')} <code>#{tag}</code> · {posts.length}</p>
+
+  <div style="margin-top:14px">
+    {posts.length ? posts.map((entry) => <PostRow entry={entry} lang={lang} />) : <p class="page-lead">{t('writing.empty')}</p>}
+  </div>
+</BaseLayout>

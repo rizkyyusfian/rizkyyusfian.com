@@ -61,7 +61,13 @@ const mins = entry ? readingTime(entry) : 0;
         <div class="pmeta">
           <span>{dateFmt}</span>
           <span>{mins} {t('writing.readingTime')}</span>
-          {entry.data.tags.length > 0 && <span>{entry.data.tags.map((tag) => `#${tag}`).join(' ')}</span>}
+          {entry.data.tags.length > 0 && (
+            <span class="pmeta-tags">
+              {entry.data.tags.map((tag) => (
+                <a href={localizePath(`/tags/${tag}`, lang)}>#{tag}</a>
+              ))}
+            </span>
+          )}
         </div>
         <div class="prose">
           <Content />

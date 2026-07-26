@@ -354,6 +354,15 @@ a.chip:hover { color: var(--accent); border-color: var(--accent); }
 .social-row a { display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border: 1px solid var(--border); border-radius: 9px; font-family: var(--font-mono); font-size: 13px; color: var(--ink); }
 .social-row a:hover { border-color: var(--accent); color: var(--accent); }
 
+/* tags */
+.tagcloud { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 22px; }
+.tagpill { display: inline-flex; align-items: center; gap: 4px; padding: 6px 11px; border: 1px solid var(--border); border-radius: 20px; background: var(--bg); font-family: var(--font-mono); font-size: 13px; color: var(--ink); }
+.tagpill:hover { border-color: var(--accent); color: var(--accent); }
+.tagpill .tagcount { margin-left: 3px; font-size: 10px; color: var(--faint); background: var(--chipbg); border-radius: 10px; padding: 1px 6px; }
+.pmeta-tags { display: inline-flex; flex-wrap: wrap; gap: 8px; }
+.pmeta-tags a:hover { color: var(--accent); }
+.page-title [data-icon] { color: var(--accent); vertical-align: -2px; }
+
 /* ============================================================
    RESPONSIVE
    ============================================================ */

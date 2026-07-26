@@ -53,6 +53,10 @@ export const ui = {
     'theme.toggle': 'Toggle theme',
     'lang.switch': 'Switch language',
     'stub.soon': 'This section is still being planted — check back soon.',
+    'nav.tags': 'tags',
+    'tags.all': 'All tags',
+    'tags.taggedWith': 'Tagged',
+    'tags.lead': 'Browse writing by topic.',
     'about.lead':
       "I'm Rizky — a software engineer from Sorong, Indonesia. This is my digital garden: I write, build, and keep track of the things I love.",
     'about.explore': 'Explore',
@@ -103,6 +107,10 @@ export const ui = {
     'theme.toggle': 'Ganti tema',
     'lang.switch': 'Ganti bahasa',
     'stub.soon': 'Bagian ini masih ditanami — nantikan segera.',
+    'nav.tags': 'tag',
+    'tags.all': 'Semua tag',
+    'tags.taggedWith': 'Bertanda',
+    'tags.lead': 'Jelajahi tulisan berdasarkan topik.',
     'about.lead':
       'Saya Rizky — seorang software engineer dari Sorong, Indonesia. Ini taman digital saya: tempat saya menulis, membangun, dan mencatat hal-hal yang saya sukai.',
     'about.explore': 'Jelajahi',
