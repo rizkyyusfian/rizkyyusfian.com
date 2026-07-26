@@ -4,6 +4,7 @@ import { Icon } from 'astro-icon/components';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { useTranslations, localizePath, otherLang } from '@i18n/utils';
 import type { Lang } from '@i18n/ui';
+import Comments from '@components/Comments.astro';
 import { readingTime, availableLangs, type Post } from '../../lib/blog';
 
 interface Props {
@@ -76,6 +77,7 @@ const mins = entry ? readingTime(entry) : 0;
           <a href={localizePath('/blog', lang)}>← {t('post.backToBlog')}</a>
           <span>{t('post.writtenByMe')} ✍️</span>
         </div>
+        <Comments lang={lang} />
       </>
     ) : (
       <>

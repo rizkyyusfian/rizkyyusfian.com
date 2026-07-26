@@ -1,0 +1,70 @@
+---
+import { useTranslations } from '@i18n/utils';
+import type { Lang } from '@i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+// Giscus config (PUBLIC_ so it reaches the browser). Get the ids from https://giscus.app.
+const repo = import.meta.env.PUBLIC_GISCUS_REPO;
+const repoId = import.meta.env.PUBLIC_GISCUS_REPO_ID;
+const category = import.meta.env.PUBLIC_GISCUS_CATEGORY ?? 'Comments';
+const categoryId = import.meta.env.PUBLIC_GISCUS_CATEGORY_ID;
+
+const configured = Boolean(repo && repoId && categoryId);
+// giscus supports 'id'; fall back to 'en' for anything unexpected.
+const giscusLang = lang === 'id' ? 'id' : 'en';
+---
+
+{configured && (
+  <section class="comments" aria-label={t('comments.title')}>
+    <h2 class="comments-title">{t('comments.title')}</h2>
+    <div class="giscus"></div>
+    <script
+      is:inline
+      define:vars={{ repo, repoId, category, categoryId, giscusLang }}
+    >
+      (function () {
+        const themeFor = () =>
+          (document.documentElement.getAttribute('data-theme') ||
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark'
+            ? 'noborder_dark'
+            : 'noborder_light';
+
+        const s = document.createElement('script');
+        s.src = 'https://giscus.app/client.js';
+        const attrs = {
+          'data-repo': repo,
+          'data-repo-id': repoId,
+          'data-category': category,
+          'data-category-id': categoryId,
+          'data-mapping': 'pathname',
+          'data-strict': '1',
+          'data-reactions-enabled': '1',
+          'data-emit-metadata': '0',
+          'data-input-position': 'top',
+          'data-lang': giscusLang,
+          'data-theme': themeFor(),
+          'data-loading': 'lazy',
+        };
+        for (const [k, v] of Object.entries(attrs)) s.setAttribute(k, v);
+        s.crossOrigin = 'anonymous';
+        s.async = true;
+        document.querySelector('.giscus')?.appendChild(s);
+
+        // Keep giscus theme in sync with the site theme toggle.
+        new MutationObserver(() => {
+          const frame = document.querySelector('iframe.giscus-frame');
+          if (frame && frame.contentWindow)
+            frame.contentWindow.postMessage(
+              { giscus: { setConfig: { theme: themeFor() } } },
+              'https://giscus.app'
+            );
+        }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+      })();
+    </script>
+  </section>
+)}
