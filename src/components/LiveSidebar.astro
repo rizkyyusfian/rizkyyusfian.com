@@ -65,8 +65,8 @@ const cells = Array.from({ length: 18 * 7 }, () => {
   <div class="widget">
     <h4>{t('widget.analytics')}</h4>
     <div class="stats">
-      <div class="stat"><b>—</b><span>views</span></div>
-      <div class="stat"><b>—</b><span>visitors</span></div>
+      <div class="stat"><b data-stat-views>—</b><span>views</span></div>
+      <div class="stat"><b data-stat-visitors>—</b><span>visitors</span></div>
     </div>
   </div>
 
@@ -140,6 +140,19 @@ const cells = Array.from({ length: 18 * 7 }, () => {
           if (cells[i]) cells[i].setAttribute('data-l', String(lvl));
         });
       }
+    })
+    .catch(() => {});
+
+  // --- Live analytics (Umami via /api/stats.json) ---
+  fetch('/api/stats.json')
+    .then((r) => r.json())
+    .then((d) => {
+      if (!d || !d.ok) return;
+      const fmt = new Intl.NumberFormat();
+      const v = document.querySelector('[data-stat-views]');
+      const u = document.querySelector('[data-stat-visitors]');
+      if (v) v.textContent = fmt.format(d.views);
+      if (u) u.textContent = fmt.format(d.visitors);
     })
     .catch(() => {});
 

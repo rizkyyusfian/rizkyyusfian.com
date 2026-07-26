@@ -36,6 +36,10 @@ const year = new Date().getFullYear();
 
 const gridClass = variant === 'home' ? 'grid' : variant === 'reading' ? 'grid read' : 'grid no-aside';
 
+// Umami analytics (only rendered when configured via PUBLIC_ env vars).
+const umamiId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
+const umamiSrc = import.meta.env.PUBLIC_UMAMI_SRC || 'https://cloud.umami.is/script.js';
+
 // Language toggle (target locale of the current page).
 const stripLang = currentPath.replace(/^\/id(?=\/|$)/, '') || '/';
 const otherHref = lang === 'en' ? (stripLang === '/' ? '/id' : `/id${stripLang}`) : stripLang;
@@ -65,6 +69,7 @@ const targetLabel = lang === 'en' ? 'ID' : 'EN';
         if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
       } catch (e) {}
     </script>
+    {umamiId && <script defer src={umamiSrc} data-website-id={umamiId}></script>}
   </head>
   <body>
     <div class="shell">
