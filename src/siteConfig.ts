@@ -5,7 +5,7 @@ export const site = {
   handle: 'rizkyyusfian',
   shortName: 'Rizky',
   initials: 'MRYY',
-  url: 'https://rizkyyusfian.com',
+  url: 'https://rizkyyusfian.dev',
   location: 'Sorong, Indonesia',
   timezone: 'Asia/Jayapura', // WIT (UTC+9)
   timezoneLabel: 'Sorong · WIT',

@@ -6,7 +6,7 @@ import icon from 'astro-icon';
 import vercel from '@astrojs/vercel';
 import tailwindcss from '@tailwindcss/vite';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://rizkyyusfian.com';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://rizkyyusfian.dev';
 
 // https://astro.build/config
 export default defineConfig({

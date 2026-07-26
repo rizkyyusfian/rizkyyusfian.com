@@ -1,4 +1,4 @@
-# rizkyyusfian.com
+# rizkyyusfian.dev
 
 My personal site and digital garden — a clean-sheet rebuild in **Astro + TypeScript**.
 Bilingual (English / Bahasa Indonesia), "Full CLI" visual identity, warm palette,
