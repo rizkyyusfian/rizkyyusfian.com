@@ -1,0 +1,92 @@
+---
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PostRow from '@components/PostRow.astro';
+import { useTranslations } from '@i18n/utils';
+import type { Lang } from '@i18n/ui';
+import { now } from '../../siteConfig';
+import { getPosts } from '../../lib/blog';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const recent = (await getPosts(lang)).slice(0, 5);
+
+// Deterministic placeholder grid (client swaps in real data).
+let seed = 20260726;
+const rand = () => ((seed = (seed * 1103515245 + 12345) & 0x7fffffff), seed / 0x7fffffff);
+const cells = Array.from({ length: 18 * 7 }, () => {
+  const r = rand();
+  return r < 0.42 ? 0 : r < 0.66 ? 1 : r < 0.85 ? 2 : r < 0.95 ? 3 : 4;
+});
+
+const tech = ['TypeScript', 'Astro', 'React', 'Python', 'Machine Learning', 'Node.js', 'PostgreSQL', 'Tailwind', 'Vercel', 'Docker'];
+---
+
+<BaseLayout lang={lang} title={t('dashboard.title')} variant="page" termPath="~/dashboard">
+  <div class="crumbs"><span>~</span><span class="sep">/</span><span class="cur2">dashboard</span></div>
+  <h1 class="page-title">{t('dashboard.title')}</h1>
+  <p class="page-lead">{t('dashboard.lead')}</p>
+
+  <div class="dash-grid">
+    {/* GitHub — wide */}
+    <section class="widget dash-wide">
+      <h4>{t('widget.contributions')}</h4>
+      <div class="ghstat"><b data-gh-total>—</b><span>@rizkyyusfian · last 12 months</span></div>
+      <div class="contrib" data-gh-grid>{cells.map((l) => <i data-l={l}></i>)}</div>
+    </section>
+
+    {/* Spotify */}
+    <section class="widget" data-sp-nowplaying={t('widget.nowPlaying')} data-sp-recent={t('widget.recentlyPlayed')}>
+      <div class="nowlabel"><span class="live-dot"></span> <span data-sp-label>{t('widget.nowPlaying')}</span></div>
+      <a class="spotify" data-sp-card hidden target="_blank" rel="noopener">
+        <span class="cover" data-sp-cover><Icon name="lucide:music" /></span>
+        <span class="t"><span class="song" data-sp-title></span><span class="artist" data-sp-artist></span></span>
+      </a>
+      <div class="spotify idle" data-sp-idle><Icon name="lucide:music" /> <span>{t('widget.notPlaying')}</span></div>
+    </section>
+
+    {/* Analytics */}
+    <section class="widget">
+      <h4>{t('widget.analytics')}</h4>
+      <div class="stats">
+        <div class="stat"><b data-stat-views>—</b><span>views</span></div>
+        <div class="stat"><b data-stat-visitors>—</b><span>visitors</span></div>
+      </div>
+    </section>
+
+    {/* Time + weather */}
+    <section class="widget">
+      <h4>{t('widget.localtime')}</h4>
+      <div class="tw">
+        <div><div class="clock" data-clock>—</div><div class="place">Sorong · WIT</div></div>
+        <div class="temp"><b data-wx-temp>—</b><span data-wx-cond>…</span></div>
+      </div>
+    </section>
+
+    {/* Now */}
+    <section class="widget">
+      <h4>{t('widget.now')}</h4>
+      <div class="nowline"><span class="k">{t('now.building')}</span><span>{now.building}</span></div>
+      <div class="cur"><span class="emo"><Icon name="lucide:book-open" /></span><div><div class="ck">{t('currently.reading')}</div><div class="ct">{now.reading}</div></div></div>
+      <div class="cur"><span class="emo"><Icon name="lucide:clapperboard" /></span><div><div class="ck">{t('currently.watching')}</div><div class="ct">{now.watching}</div></div></div>
+      <div class="cur"><span class="emo"><Icon name="lucide:gamepad-2" /></span><div><div class="ck">{t('currently.playing')}</div><div class="ct">{now.playing}</div></div></div>
+    </section>
+
+    {/* Tech stack */}
+    <section class="widget dash-wide">
+      <h4>{t('dashboard.techStack')}</h4>
+      <div class="tags">{tech.map((x) => <span class="chip">{x}</span>)}</div>
+    </section>
+  </div>
+
+  <h4 style="margin-top:26px">{t('dashboard.recent')}</h4>
+  <div>{recent.map((entry) => <PostRow entry={entry} lang={lang} />)}</div>
+</BaseLayout>
+
+<script>
+  import { initLiveWidgets } from '../../scripts/liveWidgets';
+  initLiveWidgets();
+</script>

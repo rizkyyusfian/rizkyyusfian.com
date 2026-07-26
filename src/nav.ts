@@ -21,6 +21,7 @@ export type NavNode = NavFile | NavFolder;
 /** The file-explorer tree. Mirrors src/pages so the IDE metaphor stays honest. */
 export const navTree: NavNode[] = [
   { type: 'file', name: 'index', ext: 'astro', path: '/' },
+  { type: 'file', name: 'dashboard', ext: 'astro', path: '/dashboard' },
   {
     type: 'folder',
     name: 'blog',
@@ -60,6 +61,7 @@ export const navTree: NavNode[] = [
       { type: 'file', name: 'games', ext: 'md', path: '/collections/games' },
     ],
   },
+  { type: 'file', name: 'search', ext: 'astro', path: '/search' },
   { type: 'file', name: 'contact', ext: 'astro', path: '/contact' },
 ];
 

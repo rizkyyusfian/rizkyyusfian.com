@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import icon from 'astro-icon';
+import pagefind from 'astro-pagefind';
 import vercel from '@astrojs/vercel';
 import tailwindcss from '@tailwindcss/vite';
 
@@ -27,6 +28,7 @@ export default defineConfig({
     mdx(),
     sitemap({ i18n: { defaultLocale: 'en', locales: { en: 'en', id: 'id' } } }),
     icon(),
+    pagefind(),
   ],
   vite: {
     plugins: [tailwindcss()],

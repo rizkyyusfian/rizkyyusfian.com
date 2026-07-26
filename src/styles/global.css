@@ -366,6 +366,32 @@ a.spotify:hover .song { color: var(--accent); }
 .pmeta-tags a:hover { color: var(--accent); }
 .page-title [data-icon] { color: var(--accent); vertical-align: -2px; }
 
+/* dashboard */
+.dash-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 22px; }
+.dash-grid .widget { margin-bottom: 0; }
+.dash-wide { grid-column: 1 / -1; }
+@media (max-width: 640px) { .dash-grid { grid-template-columns: 1fr; } }
+
+/* pagefind search UI — themed to the warm palette */
+.search-wrap { margin-top: 22px; max-width: 640px; }
+.pagefind-ui {
+  --pagefind-ui-scale: 0.9;
+  --pagefind-ui-primary: var(--accent);
+  --pagefind-ui-text: var(--ink);
+  --pagefind-ui-background: var(--bg);
+  --pagefind-ui-border: var(--border);
+  --pagefind-ui-tag: var(--chipbg);
+  --pagefind-ui-border-width: 1px;
+  --pagefind-ui-border-radius: 9px;
+  --pagefind-ui-font: var(--font-sans);
+}
+.pagefind-ui .pagefind-ui__search-input { font-family: var(--font-mono); background: var(--bg); color: var(--ink); }
+.pagefind-ui .pagefind-ui__result { border-top: 1px solid var(--border); }
+.pagefind-ui .pagefind-ui__result-title a { color: var(--ink); }
+.pagefind-ui .pagefind-ui__result-title a:hover { color: var(--accent); }
+.pagefind-ui .pagefind-ui__result-excerpt { color: var(--muted); }
+.pagefind-ui mark { background: var(--accent-soft); color: var(--accent); }
+
 /* ============================================================
    RESPONSIVE
    ============================================================ */
