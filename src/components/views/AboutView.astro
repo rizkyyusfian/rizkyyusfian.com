@@ -1,36 +1,137 @@
 ---
 import { Icon } from 'astro-icon/components';
 import BaseLayout from '@layouts/BaseLayout.astro';
-import { useTranslations, localizePath } from '@i18n/utils';
+import { useTranslations } from '@i18n/utils';
 import type { Lang } from '@i18n/ui';
+import { localize } from '@/lib/collections';
+import { site } from '../../siteConfig';
+import { photos, profile, skills, experience, education, publications, certificates, languages } from '@/data/resume';
 
 interface Props {
   lang: Lang;
 }
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-
-const cards = [
-  { key: 'nav.peripherals', path: '/about/peripherals', icon: 'lucide:keyboard' },
-  { key: 'nav.books', path: '/collections/books', icon: 'lucide:book-open' },
-  { key: 'nav.film', path: '/collections/film', icon: 'lucide:clapperboard' },
-  { key: 'nav.games', path: '/collections/games', icon: 'lucide:gamepad-2' },
-  { key: 'nav.music', path: '/collections/music', icon: 'lucide:music' },
-  { key: 'nav.hobby', path: '/collections/hobby', icon: 'lucide:sparkles' },
-] as const;
 ---
 
-<BaseLayout lang={lang} title={t('nav.about')} variant="page" termPath="~/about" termWin="cat">
+<BaseLayout lang={lang} title={t('nav.about')} variant="page" termPath="~/about">
   <div class="crumbs"><span>~</span><span class="sep">/</span><span class="cur2">about</span></div>
-  <h1 class="page-title">{t('nav.about')}</h1>
-  <p class="page-lead">{t('about.lead')}</p>
 
-  <h4 style="margin-top:28px">{t('about.explore')}</h4>
-  <div class="card-grid">
-    {cards.map((c) => (
-      <a class="card" href={localizePath(c.path, lang)}>
-        <div class="ct"><Icon name={c.icon} /> {t(c.key)}</div>
-      </a>
-    ))}
+  <header class="about-head">
+    <div>
+      <h1 class="page-title">{site.name}</h1>
+      <p class="about-role">{site.location} · software engineer &amp; AI/ML</p>
+    </div>
+    <a class="cv-btn" href="/cv.pdf" target="_blank" rel="noopener">
+      <Icon name="lucide:download" /> {t('about.downloadCv')}
+    </a>
+  </header>
+
+  {/* Photo carousel */}
+  <div class="carousel" data-carousel>
+    <div class="carousel-track" data-carousel-track>
+      {photos.map((p, i) => (
+        <figure class="slide" data-slide>
+          {p.src ? (
+            <img src={p.src} alt={p.alt} loading="lazy" />
+          ) : (
+            <div class="slide-ph"><Icon name="lucide:image" /><span>{p.alt}</span></div>
+          )}
+        </figure>
+      ))}
+    </div>
+    <button class="carousel-btn prev" data-carousel-prev aria-label="Previous"><Icon name="lucide:chevron-left" /></button>
+    <button class="carousel-btn next" data-carousel-next aria-label="Next"><Icon name="lucide:chevron-right" /></button>
+    <div class="carousel-dots" data-carousel-dots>
+      {photos.map((_, i) => <button class:list={['dot', { on: i === 0 }]} data-carousel-dot={i} aria-label={`Go to ${i + 1}`}></button>)}
+    </div>
   </div>
+
+  {/* Overview */}
+  <section class="about-overview">
+    <p class="about-profile">{localize(profile, lang)}</p>
+    <div class="about-tags">
+      <h4>{t('about.skills')}</h4>
+      <div class="tags">{skills.map((s) => <span class="chip">{s}</span>)}</div>
+    </div>
+    <div class="about-langs">
+      {languages.map((l) => <span class="langpair"><b>{l.name}</b> · {l.level}</span>)}
+    </div>
+  </section>
+
+  {/* Experience */}
+  <section class="resume-sec">
+    <h2 class="resume-h"><Icon name="lucide:briefcase" /> {t('about.experience')}</h2>
+    <div class="timeline">
+      {experience.map((job) => (
+        <div class="tl-item">
+          <div class="tl-head">
+            <div><b class="tl-role">{job.role}</b><span class="tl-org">{job.org}</span></div>
+            <span class="tl-period">{job.period}</span>
+          </div>
+          <ul class="tl-points">{job.points.map((pt) => <li>{localize(pt, lang)}</li>)}</ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  {/* Education */}
+  <section class="resume-sec">
+    <h2 class="resume-h"><Icon name="lucide:graduation-cap" /> {t('about.education')}</h2>
+    <div class="timeline">
+      {education.map((ed) => (
+        <div class="tl-item">
+          <div class="tl-head">
+            <div><b class="tl-role">{ed.degree}</b><span class="tl-org">{ed.school}</span></div>
+            <span class="tl-period">{ed.period}</span>
+          </div>
+          {ed.note && <div class="tl-note">{ed.note}</div>}
+        </div>
+      ))}
+    </div>
+  </section>
+
+  {/* Certificates */}
+  <section class="resume-sec">
+    <h2 class="resume-h"><Icon name="lucide:award" /> {t('about.certificates')}</h2>
+    <div class="cert-grid">
+      {certificates.map((c) => (
+        <div class="cert">
+          <Icon name="lucide:badge-check" />
+          <div><b>{c.name}</b>{c.issuer && <span>{c.issuer}</span>}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  {/* Publications */}
+  <section class="resume-sec">
+    <h2 class="resume-h"><Icon name="lucide:scroll-text" /> {t('about.publications')}</h2>
+    <ol class="pub-list">
+      {publications.map((p) => (
+        <li><span class="pub-year">{p.year}</span><span class="pub-title">{p.title}</span></li>
+      ))}
+    </ol>
+  </section>
 </BaseLayout>
+
+<script>
+  document.querySelectorAll('[data-carousel]').forEach((car) => {
+    const track = car.querySelector('[data-carousel-track]') as HTMLElement | null;
+    const slides = car.querySelectorAll('[data-slide]');
+    const dots = car.querySelectorAll('[data-carousel-dot]');
+    if (!track || !slides.length) return;
+    let i = 0;
+    const go = (n: number) => {
+      i = (n + slides.length) % slides.length;
+      track.style.transform = `translateX(-${i * 100}%)`;
+      dots.forEach((d, di) => d.classList.toggle('on', di === i));
+    };
+    car.querySelector('[data-carousel-prev]')?.addEventListener('click', () => go(i - 1));
+    car.querySelector('[data-carousel-next]')?.addEventListener('click', () => go(i + 1));
+    dots.forEach((d, di) => d.addEventListener('click', () => go(di)));
+    let timer = setInterval(() => go(i + 1), 5000);
+    car.addEventListener('mouseenter', () => clearInterval(timer));
+    car.addEventListener('mouseleave', () => (timer = setInterval(() => go(i + 1), 5000)));
+  });
+</script>

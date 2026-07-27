@@ -4,50 +4,33 @@ export type NavFile = {
   type: 'file';
   name: string;
   ext: 'astro' | 'md' | 'tsx';
-  /** Route to navigate to, or null for non-navigable placeholder files like [slug]. */
-  path: string | null;
+  /** Route to navigate to. */
+  path: string;
 };
 
 export type NavFolder = {
   type: 'folder';
   name: string;
-  /** Whether the folder is expanded by default. */
   open?: boolean;
   children: NavNode[];
 };
 
 export type NavNode = NavFile | NavFolder;
 
-/** The file-explorer tree. Mirrors src/pages so the IDE metaphor stays honest. */
+/**
+ * The file-explorer menu. Curated for clarity (not a literal 1:1 of src/pages):
+ * writing lives under blog/, everything about-me under about/, media under
+ * collections/. Only navigable entries are shown — no dynamic-route placeholders.
+ */
 export const navTree: NavNode[] = [
   { type: 'file', name: 'index', ext: 'astro', path: '/' },
-  { type: 'file', name: 'dashboard', ext: 'astro', path: '/dashboard' },
   {
     type: 'folder',
     name: 'blog',
     open: true,
     children: [
       { type: 'file', name: 'index', ext: 'astro', path: '/blog' },
-      { type: 'file', name: '[slug]', ext: 'astro', path: null },
-    ],
-  },
-  {
-    type: 'folder',
-    name: 'tags',
-    open: false,
-    children: [
-      { type: 'file', name: 'index', ext: 'astro', path: '/tags' },
-      { type: 'file', name: '[tag]', ext: 'astro', path: null },
-    ],
-  },
-  { type: 'file', name: 'projects', ext: 'astro', path: '/projects' },
-  {
-    type: 'folder',
-    name: 'gist',
-    open: false,
-    children: [
-      { type: 'file', name: 'index', ext: 'astro', path: '/gist' },
-      { type: 'file', name: '[slug]', ext: 'astro', path: null },
+      { type: 'file', name: 'tags', ext: 'astro', path: '/tags' },
     ],
   },
   {
@@ -56,6 +39,8 @@ export const navTree: NavNode[] = [
     open: true,
     children: [
       { type: 'file', name: 'index', ext: 'astro', path: '/about' },
+      { type: 'file', name: 'projects', ext: 'astro', path: '/projects' },
+      { type: 'file', name: 'gist', ext: 'astro', path: '/gist' },
       { type: 'file', name: 'peripherals', ext: 'astro', path: '/about/peripherals' },
     ],
   },
@@ -64,6 +49,7 @@ export const navTree: NavNode[] = [
     name: 'collections',
     open: false,
     children: [
+      { type: 'file', name: 'index', ext: 'astro', path: '/collections' },
       { type: 'file', name: 'books', ext: 'md', path: '/collections/books' },
       { type: 'file', name: 'film', ext: 'md', path: '/collections/film' },
       { type: 'file', name: 'games', ext: 'md', path: '/collections/games' },
@@ -71,16 +57,6 @@ export const navTree: NavNode[] = [
       { type: 'file', name: 'hobby', ext: 'md', path: '/collections/hobby' },
     ],
   },
-  { type: 'file', name: 'search', ext: 'astro', path: '/search' },
   { type: 'file', name: 'contact', ext: 'astro', path: '/contact' },
-];
-
-/** Top-level pages used for simple nav / labels. */
-export const primaryNav: { key: UIKey; path: string }[] = [
-  { key: 'nav.home', path: '/' },
-  { key: 'nav.blog', path: '/blog' },
-  { key: 'nav.projects', path: '/projects' },
-  { key: 'nav.gist', path: '/gist' },
-  { key: 'nav.about', path: '/about' },
-  { key: 'nav.contact', path: '/contact' },
+  { type: 'file', name: 'search', ext: 'astro', path: '/search' },
 ];

@@ -1,7 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components';
 import BaseLayout from '@layouts/BaseLayout.astro';
-import { useTranslations } from '@i18n/utils';
+import { useTranslations, localizePath } from '@i18n/utils';
 import type { Lang, UIKey } from '@i18n/ui';
 import { localize, statusLabel, type CollectionItem } from '@/lib/collections';
 
@@ -16,33 +16,39 @@ interface Props {
 }
 const { lang, titleKey, crumb, term, icon, items, lead } = Astro.props;
 const t = useTranslations(lang);
+
+// Stable per-item hue for the cover tile.
+const hue = (s: string) => [...s].reduce((a, c) => a + c.charCodeAt(0), 0) % 360;
 ---
 
 <BaseLayout lang={lang} title={t(titleKey)} variant="page" termPath={term}>
   <div class="crumbs">
-    <span>~</span><span class="sep">/</span><span>collections</span><span class="sep">/</span><span class="cur2">{crumb}</span>
+    <span>~</span><span class="sep">/</span>
+    <a href={localizePath('/collections', lang)}>collections</a><span class="sep">/</span><span class="cur2">{crumb}</span>
   </div>
   <h1 class="page-title"><Icon name={icon} /> {t(titleKey)}</h1>
   {lead && <p class="page-lead">{lead}</p>}
 
-  <div class="coll-grid">
+  <div class="mcard-grid">
     {items.map((item) => (
-      <article class="coll-card">
-        {item.status && <span class:list={['coll-status', item.status]}>{statusLabel[item.status][lang]}</span>}
-        <h3 class="coll-title">
-          {item.link ? <a href={item.link} target="_blank" rel="noopener">{item.title}</a> : item.title}
-        </h3>
-        {(item.by || item.year) && (
-          <div class="coll-meta">{[item.by, item.year].filter(Boolean).join(' · ')}</div>
-        )}
-        {item.rating && (
-          <div class="coll-rating" aria-label={`${item.rating} / 5`}>
-            {Array.from({ length: 5 }, (_, i) => (
-              <Icon name={i < item.rating! ? 'lucide:star' : 'lucide:star'} class:list={['star', { on: i < item.rating! }]} />
-            ))}
-          </div>
-        )}
-        {localize(item.note, lang) && <p class="coll-note">{localize(item.note, lang)}</p>}
+      <article class="mcard">
+        <div class="mcard-cover" style={`--h:${hue(item.title)}`}>
+          <span class="mcard-initial">{item.title.charAt(0)}</span>
+          <Icon name={icon} class="mcard-ico" />
+          {item.status && <span class:list={['mcard-status', item.status]}>{statusLabel[item.status][lang]}</span>}
+        </div>
+        <div class="mcard-body">
+          <h3 class="mcard-title">
+            {item.link ? <a href={item.link} target="_blank" rel="noopener">{item.title}</a> : item.title}
+          </h3>
+          {(item.by || item.year) && <div class="mcard-meta">{[item.by, item.year].filter(Boolean).join(' · ')}</div>}
+          {item.rating && (
+            <div class="mcard-rating" aria-label={`${item.rating} / 5`}>
+              {Array.from({ length: 5 }, (_, i) => <Icon name="lucide:star" class:list={['star', { on: i < item.rating! }]} />)}
+            </div>
+          )}
+          {localize(item.note, lang) && <p class="mcard-note">{localize(item.note, lang)}</p>}
+        </div>
       </article>
     ))}
   </div>
