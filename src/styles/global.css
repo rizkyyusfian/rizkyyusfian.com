@@ -616,8 +616,11 @@ a.spotify:hover .song { color: var(--accent); }
 @media (min-width: 901px) {
   .shell { height: 100vh; height: 100dvh; overflow: hidden; }
   .topbar { position: static; }
-  .grid, .grid.no-aside, .grid.read { flex: 1 1 auto; min-height: 0; overflow: hidden; }
-  .col { overflow-y: auto; overflow-x: hidden; max-height: 100%; scrollbar-width: thin; }
+  /* grid-template-rows forces the single row to fill the frame (not content
+     height), so each column becomes a fixed-height, independently-scrolling area
+     regardless of how tall its content is (e.g. /blog). */
+  .grid, .grid.no-aside, .grid.read { flex: 1 1 auto; min-height: 0; overflow: hidden; grid-template-rows: minmax(0, 1fr); }
+  .col { overflow-y: auto; overflow-x: hidden; min-height: 0; height: 100%; scrollbar-width: thin; }
   /* columns now scroll on their own — drop the sticky offsets */
   .explorer-nav { position: static; top: auto; }
   .aside > .live { position: static; top: auto; }
