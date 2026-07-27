@@ -608,3 +608,18 @@ a.spotify:hover .song { color: var(--accent); }
 .stack-item b { display: block; font-family: var(--font-mono); font-size: 13.5px; color: var(--ink); }
 .stack-item span { font-family: var(--font-sans); font-size: 12px; color: var(--muted); }
 .readme { max-width: 74ch; }
+
+/* ============================================================
+   APP-SHELL (desktop): fixed header/nav/sidebar, only columns scroll.
+   Mobile (<=900px) keeps normal document scrolling.
+   ============================================================ */
+@media (min-width: 901px) {
+  .shell { height: 100vh; height: 100dvh; overflow: hidden; }
+  .topbar { position: static; }
+  .grid, .grid.no-aside, .grid.read { flex: 1 1 auto; min-height: 0; overflow: hidden; }
+  .col { overflow-y: auto; overflow-x: hidden; max-height: 100%; scrollbar-width: thin; }
+  /* columns now scroll on their own — drop the sticky offsets */
+  .explorer-nav { position: static; top: auto; }
+  .aside > .live { position: static; top: auto; }
+  .toc { position: static; top: auto; }
+}
