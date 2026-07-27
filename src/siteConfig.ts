@@ -13,9 +13,19 @@ export const site = {
   githubUser: 'rizkyyusfian',
 } as const;
 
+// Primary socials, in display order. Fill the TODO hrefs with your real handles.
 export const socials = [
-  { label: 'GitHub', href: 'https://github.com/rizkyyusfian', icon: 'lucide:github' },
-  { label: 'Email', href: 'mailto:rizky.yusfian16@gmail.com', icon: 'lucide:mail' },
+  { label: 'GitHub', handle: '@rizkyyusfian', href: 'https://github.com/rizkyyusfian', icon: 'simple-icons:github' },
+  { label: 'LinkedIn', handle: 'Muhammad Rizky Yusfian', href: 'https://www.linkedin.com/in/rizkyyusfian', icon: 'simple-icons:linkedin' },
+  { label: 'X', handle: '@rizkyyusfian', href: 'https://x.com/rizkyyusfian', icon: 'simple-icons:x' },
+  { label: 'Instagram', handle: '@rizkyyusfian', href: 'https://instagram.com/rizkyyusfian', icon: 'simple-icons:instagram' },
+  { label: 'Email', handle: 'rizky.yusfian16@gmail.com', href: 'mailto:rizky.yusfian16@gmail.com', icon: 'lucide:mail' },
+] as const;
+
+// Gaming / chat — shown separately from the primary socials.
+export const gaming = [
+  { label: 'Steam', handle: 'rizkyyusfian', href: 'https://steamcommunity.com/id/rizkyyusfian', icon: 'simple-icons:steam' },
+  { label: 'Discord', handle: 'rizkyyusfian', href: '#', icon: 'simple-icons:discord' },
 ] as const;
 
 /** The GitHub repo (used for the footer commit link + version dropdown). */

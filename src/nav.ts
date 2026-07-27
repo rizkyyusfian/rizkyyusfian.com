@@ -57,6 +57,6 @@ export const navTree: NavNode[] = [
       { type: 'file', name: 'hobby', ext: 'md', path: '/collections/hobby' },
     ],
   },
+  { type: 'file', name: 'README', ext: 'md', path: '/readme' },
   { type: 'file', name: 'contact', ext: 'astro', path: '/contact' },
-  { type: 'file', name: 'search', ext: 'astro', path: '/search' },
 ];

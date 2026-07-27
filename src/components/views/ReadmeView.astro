@@ -1,0 +1,75 @@
+---
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { useTranslations } from '@i18n/utils';
+import type { Lang } from '@i18n/ui';
+import { repo } from '../../siteConfig';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const id = lang === 'id';
+
+const stack = [
+  { name: 'Astro', note: id ? 'kerangka kerja, sebagian besar tanpa JS' : 'the framework, mostly zero-JS', icon: 'simple-icons:astro' },
+  { name: 'TypeScript', note: id ? 'seluruh kode' : 'everywhere', icon: 'simple-icons:typescript' },
+  { name: 'Tailwind CSS', note: id ? 'sistem token warna hangat' : 'warm token-based design system', icon: 'simple-icons:tailwindcss' },
+  { name: 'MDX', note: id ? 'tulisan + gist' : 'writing + gists', icon: 'simple-icons:mdx' },
+  { name: 'Vercel', note: id ? 'hosting + endpoint langsung' : 'hosting + live endpoints', icon: 'simple-icons:vercel' },
+  { name: 'Pagefind', note: id ? 'pencarian sisi-klien' : 'client-side search', icon: 'lucide:search' },
+];
+---
+
+<BaseLayout lang={lang} title="README" variant="page" termPath="~/README.md">
+  <div class="crumbs"><span>~</span><span class="sep">/</span><span class="cur2">README.md</span></div>
+  <article class="article readme">
+    <h1 class="page-title"><Icon name="lucide:book-marked" /> README.md</h1>
+
+    <div class="prose">
+      <p>
+        {id
+          ? 'Selamat datang di kode sumber ruang digital saya. Ini bukan sekadar portofolio — ini taman digital: tempat saya menulis, membangun, dan mengoleksi hal-hal seiring waktu.'
+          : "Welcome to the source of my digital space. This isn't just a portfolio — it's a digital garden: a place I write, build, and collect things over time."}
+      </p>
+
+      <h2>{id ? 'Kenapa saya membuat ini' : 'Why I built this'}</h2>
+      <p>
+        {id
+          ? 'Situs lama saya adalah kerangka Next.js yang tak pernah benar-benar bertumbuh. Saya ingin sesuatu yang lebih ringan dan lebih “saya” — cepat, dwibahasa, dan menyenangkan untuk dirawat. Jadi saya membangun ulang dari nol dengan estetika terminal/IDE yang saya sukai, dan sidebar langsung yang membuatnya terasa hidup.'
+          : 'My old site was a Next.js shell that never really grew. I wanted something lighter and more me — fast, bilingual, and fun to maintain. So I rebuilt it from scratch around a terminal/IDE aesthetic I love, with a live sidebar that makes it feel alive.'}
+      </p>
+
+      <h2>{id ? 'Tech stack' : 'Tech stack'}</h2>
+    </div>
+
+    <div class="stack-grid">
+      {stack.map((s) => (
+        <div class="stack-item">
+          <Icon name={s.icon} />
+          <div><b>{s.name}</b><span>{s.note}</span></div>
+        </div>
+      ))}
+    </div>
+
+    <div class="prose">
+      <h2>{id ? 'Yang ada di dalamnya' : "What's inside"}</h2>
+      <ul>
+        <li>{id ? 'Blog + catatan dwibahasa (EN/ID) dengan fallback yang anggun' : 'Bilingual (EN/ID) blog + notes with a graceful fallback'}</li>
+        <li>{id ? 'Sidebar langsung: Spotify, grafik GitHub, cuaca, jam, analitik' : 'A live sidebar: Spotify, GitHub graph, weather, clock, analytics'}</li>
+        <li>{id ? 'Koleksi (buku, film, gim, musik), gist, dan halaman perkakas' : 'Collections (books, film, games, music), gists, and a uses page'}</li>
+        <li>{id ? 'Komentar + reaksi via Giscus, pencarian, RSS, tema terang/gelap' : 'Comments + reactions via Giscus, search, RSS, and light/dark themes'}</li>
+      </ul>
+
+      <h2>{id ? 'Sumber terbuka' : 'Open source'}</h2>
+      <p>
+        {id ? 'Seluruh kode ada di ' : 'The whole thing is on '}
+        <a href={repo.url} target="_blank" rel="noopener">GitHub</a>
+        {id ? '. Silakan intip cara kerjanya.' : '. Feel free to poke around and see how it works.'}
+      </p>
+    </div>
+
+    <div class="artfoot"><span>{t('post.writtenByMe')} ✍️</span></div>
+  </article>
+</BaseLayout>

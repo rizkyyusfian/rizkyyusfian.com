@@ -27,6 +27,7 @@ const t = useTranslations(lang);
     </a>
   </header>
 
+  <div class="about-top">
   {/* Photo carousel */}
   <div class="carousel" data-carousel>
     <div class="carousel-track" data-carousel-track>
@@ -58,6 +59,7 @@ const t = useTranslations(lang);
       {languages.map((l) => <span class="langpair"><b>{l.name}</b> · {l.level}</span>)}
     </div>
   </section>
+  </div>
 
   {/* Experience */}
   <section class="resume-sec">
