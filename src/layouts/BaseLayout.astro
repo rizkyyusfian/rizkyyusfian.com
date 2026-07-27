@@ -34,7 +34,11 @@ const canonical = new URL(currentPath, site.url).toString();
 const fullTitle = variant === 'home' ? `${site.name} · ${site.handle}` : `${title} · ${site.handle}`;
 const year = new Date().getFullYear();
 
-const gridClass = variant === 'home' ? 'grid' : variant === 'reading' ? 'grid read' : 'grid no-aside';
+// Live sidebar shows on home + all normal pages; reading pages (articles, gists)
+// stay clean. A reading page shows a TOC column only when a `toc` slot is passed.
+const hasToc = Astro.slots.has('toc');
+const showLive = variant === 'home' || variant === 'page';
+const gridClass = showLive ? 'grid' : variant === 'reading' && hasToc ? 'grid read' : 'grid no-aside';
 
 // Umami analytics (only rendered when configured via PUBLIC_ env vars).
 const umamiId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
@@ -94,12 +98,12 @@ const targetLabel = lang === 'en' ? 'ID' : 'EN';
           <slot />
         </main>
 
-        {variant === 'home' && (
+        {showLive && (
           <div class="col aside" data-pagefind-ignore>
             <LiveSidebar lang={lang} />
           </div>
         )}
-        {variant === 'reading' && (
+        {variant === 'reading' && hasToc && (
           <div class="col toccol" data-pagefind-ignore>
             <slot name="toc" />
           </div>
