@@ -4,10 +4,8 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import { useTranslations, localizePath } from '@i18n/utils';
 import type { Lang, UIKey } from '@i18n/ui';
 import { books } from '@/data/books';
-import { films } from '@/data/films';
+import { movies } from '@/data/movies';
 import { games } from '@/data/games';
-import { music } from '@/data/music';
-import { hobbies } from '@/data/hobbies';
 
 interface Props {
   lang: Lang;
@@ -17,10 +15,8 @@ const t = useTranslations(lang);
 
 const groups: { key: UIKey; path: string; icon: string; items: { title: string }[] }[] = [
   { key: 'nav.books', path: '/collections/books', icon: 'lucide:book-open', items: books },
-  { key: 'nav.film', path: '/collections/film', icon: 'lucide:clapperboard', items: films },
+  { key: 'nav.movie', path: '/collections/movie', icon: 'lucide:clapperboard', items: movies },
   { key: 'nav.games', path: '/collections/games', icon: 'lucide:gamepad-2', items: games },
-  { key: 'nav.music', path: '/collections/music', icon: 'lucide:music', items: music },
-  { key: 'nav.hobby', path: '/collections/hobby', icon: 'lucide:sparkles', items: hobbies },
 ];
 ---
 

@@ -51,10 +51,8 @@ export const navTree: NavNode[] = [
     children: [
       { type: 'file', name: 'index', ext: 'astro', path: '/collections' },
       { type: 'file', name: 'books', ext: 'md', path: '/collections/books' },
-      { type: 'file', name: 'film', ext: 'md', path: '/collections/film' },
+      { type: 'file', name: 'movie', ext: 'md', path: '/collections/movie' },
       { type: 'file', name: 'games', ext: 'md', path: '/collections/games' },
-      { type: 'file', name: 'music', ext: 'md', path: '/collections/music' },
-      { type: 'file', name: 'hobby', ext: 'md', path: '/collections/hobby' },
     ],
   },
   { type: 'file', name: 'README', ext: 'md', path: '/readme' },

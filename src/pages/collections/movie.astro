@@ -1,0 +1,6 @@
+---
+import CollectionView from "@components/views/CollectionView.astro";
+import { movies } from "@/data/movies";
+---
+
+<CollectionView lang="en" titleKey="nav.movie" crumb="movie" term="~/collections/movie" icon="lucide:clapperboard" items={movies} />
