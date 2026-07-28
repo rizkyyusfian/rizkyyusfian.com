@@ -51,15 +51,20 @@ const t = useTranslations(lang);
   {/* Overview */}
   <section class="about-overview">
     <p class="about-profile">{localize(profile, lang)}</p>
-    <div class="about-tags">
-      <h4>{t('about.skills')}</h4>
-      <div class="tags">{skills.map((s) => <span class="chip">{s}</span>)}</div>
-    </div>
-    <div class="about-langs">
-      {languages.map((l) => <span class="langpair"><b>{l.name}</b> · {l.level}</span>)}
-    </div>
   </section>
   </div>
+
+  {/* Skills + languages */}
+  <section class="resume-sec">
+    <h2 class="resume-h"><Icon name="lucide:wrench" /> {t('about.skills')}</h2>
+    <div class="tags">{skills.map((s) => <span class="chip">{s}</span>)}</div>
+    <div class="about-tags" style="margin-top:18px">
+      <h4>{t('about.languages')}</h4>
+      <div class="about-langs">
+        {languages.map((l) => <span class="langpair"><b>{l.name}</b> · {l.level}</span>)}
+      </div>
+    </div>
+  </section>
 
   {/* Experience */}
   <section class="resume-sec">

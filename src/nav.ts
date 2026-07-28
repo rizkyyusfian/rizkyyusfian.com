@@ -40,8 +40,8 @@ export const navTree: NavNode[] = [
     children: [
       { type: 'file', name: 'index', ext: 'astro', path: '/about' },
       { type: 'file', name: 'projects', ext: 'astro', path: '/projects' },
-      { type: 'file', name: 'gist', ext: 'astro', path: '/gist' },
       { type: 'file', name: 'peripherals', ext: 'astro', path: '/about/peripherals' },
+      { type: 'file', name: 'gist', ext: 'astro', path: '/gist' },
     ],
   },
   {

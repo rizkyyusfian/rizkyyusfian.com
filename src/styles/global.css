@@ -358,7 +358,7 @@ a.spotify:hover .song { color: var(--accent); }
 .crumbs { font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-bottom: 20px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .crumbs .sep { color: var(--faint); }
 .crumbs .cur2 { color: var(--accent); }
-.article { max-width: 68ch; }
+.article { max-width: none; }
 .postlang { float: right; display: inline-flex; gap: 3px; padding: 3px; border: 1px solid var(--border); border-radius: 7px; }
 .postlang a, .postlang span { font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 4px; color: var(--muted); }
 .postlang .on { background: var(--accent); color: var(--onaccent); }
