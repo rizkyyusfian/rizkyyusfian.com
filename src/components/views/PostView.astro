@@ -26,6 +26,9 @@ if (entry) {
 }
 
 const title = entry ? entry.data.title : slug;
+const description = entry?.data.description;
+// Only emit hreflang for translations that actually exist.
+const alternates = langs.map((l) => ({ hreflang: l, path: localizePath(`/blog/${slug}`, l) }));
 const dateFmt = entry
   ? new Intl.DateTimeFormat(lang === 'id' ? 'id-ID' : 'en-US', {
       year: 'numeric',
@@ -44,7 +47,17 @@ if (entry) {
 }
 ---
 
-<BaseLayout lang={lang} title={title} variant="reading" termPath={`~/blog/${slug}.mdx`} termWin="read">
+<BaseLayout
+  lang={lang}
+  title={title}
+  description={description}
+  variant="reading"
+  termPath={`~/blog/${slug}.mdx`}
+  ogType="article"
+  image={entry?.data.cover}
+  article={entry ? { published: entry.data.pubDate, updated: entry.data.updated, tags: entry.data.tags } : undefined}
+  alternates={alternates}
+>
   <div class="crumbs">
     <a href={localizePath('/', lang)}>~</a><span class="sep">/</span>
     <a href={localizePath('/blog', lang)}>blog</a><span class="sep">/</span>

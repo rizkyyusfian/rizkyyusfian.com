@@ -17,7 +17,15 @@ const dateFmt = new Intl.DateTimeFormat(lang === 'id' ? 'id-ID' : 'en-US', {
 }).format(entry.data.pubDate);
 ---
 
-<BaseLayout lang={lang} title={entry.data.title} variant="page" termPath={`~/about/gist/${entry.id}.md`}>
+<BaseLayout
+  lang={lang}
+  title={entry.data.title}
+  description={entry.data.description}
+  variant="page"
+  termPath={`~/about/gist/${entry.id}.md`}
+  ogType="article"
+  article={{ published: entry.data.pubDate, updated: undefined, tags: entry.data.tags }}
+>
   <div class="crumbs">
     <a href={localizePath('/about', lang)}>about</a><span class="sep">/</span>
     <a href={localizePath('/gist', lang)}>gist</a><span class="sep">/</span><span class="cur2">{entry.id}</span>

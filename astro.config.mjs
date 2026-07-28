@@ -7,7 +7,7 @@ import pagefind from 'astro-pagefind';
 import vercel from '@astrojs/vercel';
 import tailwindcss from '@tailwindcss/vite';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://rizkyyusfian.dev';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.rizkyyusfian.dev';
 
 // https://astro.build/config
 export default defineConfig({

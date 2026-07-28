@@ -5,7 +5,7 @@ import Explorer from '@components/Explorer.astro';
 import LiveSidebar from '@components/LiveSidebar.astro';
 import { useTranslations } from '@i18n/utils';
 import type { Lang } from '@i18n/ui';
-import { site, versions } from '../siteConfig';
+import { site, socials, versions } from '../siteConfig';
 import { gitInfo } from '../lib/git';
 
 interface Props {
@@ -18,6 +18,18 @@ interface Props {
   termPath?: string;
   /** @deprecated no longer rendered; kept so existing call sites don't error. */
   termWin?: string;
+  /** OG object type. 'article' for posts/gists, 'website' elsewhere. */
+  ogType?: 'website' | 'article';
+  /** Social-share image path/URL. Falls back to the site default. */
+  image?: string;
+  /** Article metadata — enables BlogPosting schema + article:* OG tags. */
+  article?: { published?: Date; updated?: Date; tags?: string[] };
+  /**
+   * Explicit hreflang alternates ({ hreflang, path }). When omitted, the
+   * layout assumes the page is mirrored across EN/ID and derives the pair.
+   * Pages with partial translations (e.g. blog posts) should pass this.
+   */
+  alternates?: { hreflang: string; path: string }[];
 }
 
 const {
@@ -26,6 +38,10 @@ const {
   description = 'Software engineer from Sorong, Indonesia. Digital garden — I write, build, and collect things, in English and Indonesian.',
   variant = 'page',
   termPath = '~/rizkyyusfian',
+  ogType = 'website',
+  image,
+  article,
+  alternates,
 } = Astro.props;
 
 const t = useTranslations(lang);
@@ -33,6 +49,62 @@ const currentPath = Astro.url.pathname;
 const canonical = new URL(currentPath, site.url).toString();
 const fullTitle = variant === 'home' ? `${site.name} · ${site.handle}` : `${title} · ${site.handle}`;
 const year = new Date().getFullYear();
+
+// Absolute social-share image.
+const ogImage = new URL(image ?? site.ogImage, site.url).toString();
+
+// hreflang alternates. Derive the EN/ID pair for mirrored pages; blog posts
+// pass an explicit list built from the translations that actually exist.
+const enPath = lang === 'en' ? currentPath : currentPath.replace(/^\/id(?=\/|$)/, '') || '/';
+const idPath = lang === 'id' ? currentPath : currentPath === '/' ? '/id' : `/id${currentPath}`;
+// Keep hreflang hrefs byte-identical to canonical (trailing slash, absolute).
+const abs = (p: string) => {
+  const u = new URL(p, site.url);
+  if (!u.pathname.endsWith('/') && !u.pathname.split('/').pop()!.includes('.')) u.pathname += '/';
+  return u.toString();
+};
+const hreflangs = alternates
+  ? alternates.map((a) => ({ hreflang: a.hreflang, href: abs(a.path) }))
+  : [
+      { hreflang: 'en', href: abs(enPath) },
+      { hreflang: 'id', href: abs(idPath) },
+    ];
+const xDefault = abs(enPath);
+
+// Structured data. Person + WebSite site-wide; BlogPosting on articles.
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  alternateName: site.handle,
+  url: site.url,
+  email: site.email,
+  jobTitle: 'Software Engineer',
+  address: { '@type': 'PostalAddress', addressLocality: site.location },
+  sameAs: socials.filter((s) => s.href.startsWith('http')).map((s) => s.href),
+};
+const websiteLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: site.name,
+  url: site.url,
+  inLanguage: lang,
+};
+const articleLd = article && {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  inLanguage: lang,
+  url: canonical,
+  image: ogImage,
+  datePublished: article.published?.toISOString(),
+  dateModified: (article.updated ?? article.published)?.toISOString(),
+  keywords: article.tags,
+  author: { '@type': 'Person', name: site.name, url: site.url },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
+};
+const jsonLd = [personLd, websiteLd, ...(articleLd ? [articleLd] : [])];
 
 // Live sidebar shows on home + all normal pages; reading pages (articles, gists)
 // stay clean. A reading page shows a TOC column only when a `toc` slot is passed.
@@ -60,13 +132,23 @@ const targetLabel = lang === 'en' ? 'ID' : 'EN';
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {hreflangs.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+    <link rel="alternate" hreflang="x-default" href={xDefault} />
     <link rel="alternate" type="application/rss+xml" title={`${site.handle} — blog`} href={lang === 'id' ? '/id/rss.xml' : '/rss.xml'} />
     <meta name="generator" content={Astro.generator} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content={lang === 'id' ? 'id_ID' : 'en_US'} />
+    {article?.published && <meta property="article:published_time" content={article.published.toISOString()} />}
+    {article?.updated && <meta property="article:modified_time" content={article.updated.toISOString()} />}
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
     <script is:inline>
       try {
         const t = localStorage.getItem('theme');

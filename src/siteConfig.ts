@@ -5,7 +5,9 @@ export const site = {
   handle: 'rizkyyusfian',
   shortName: 'Rizky',
   initials: 'MRYY',
-  url: 'https://rizkyyusfian.dev',
+  url: 'https://www.rizkyyusfian.dev',
+  /** Default social-share image (1200×630), served from /public. */
+  ogImage: '/og.png',
   location: 'Sorong, Indonesia',
   timezone: 'Asia/Jayapura', // WIT (UTC+9)
   timezoneLabel: 'Sorong · WIT',
