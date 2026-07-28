@@ -5,7 +5,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import { useTranslations, localizePath, otherLang } from '@i18n/utils';
 import type { Lang } from '@i18n/ui';
 import Comments from '@components/Comments.astro';
-import { readingTime, availableLangs, type Post } from '../../lib/blog';
+import { readingTime, availableLangs, baseSlug, getPosts, type Post } from '../../lib/blog';
 
 interface Props {
   entry: Post | null;
@@ -34,6 +34,14 @@ const dateFmt = entry
     }).format(entry.data.pubDate)
   : '';
 const mins = entry ? readingTime(entry) : 0;
+
+// Next article to read (the next post in this language, newest-first order).
+let nextPost: Post | null = null;
+if (entry) {
+  const all = await getPosts(lang);
+  const idx = all.findIndex((p) => baseSlug(p) === slug);
+  nextPost = idx >= 0 && idx < all.length - 1 ? all[idx + 1] : null;
+}
 ---
 
 <BaseLayout lang={lang} title={title} variant="reading" termPath={`~/blog/${slug}.mdx`} termWin="read">
@@ -75,7 +83,9 @@ const mins = entry ? readingTime(entry) : 0;
         </div>
         <div class="artfoot">
           <a href={localizePath('/blog', lang)}>← {t('post.backToBlog')}</a>
-          <span>{t('post.writtenByMe')} ✍️</span>
+          {nextPost && (
+            <a href={localizePath(`/blog/${baseSlug(nextPost)}`, lang)}>{t('post.nextArticle')} →</a>
+          )}
         </div>
         <Comments lang={lang} />
       </>
