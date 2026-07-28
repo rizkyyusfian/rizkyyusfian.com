@@ -41,7 +41,7 @@ export const repo = {
  */
 export const versions = [
   { label: 'v2 · astro', current: true, href: null as string | null },
-  { label: 'v1 · next.js', current: false, href: null as string | null }, // TODO: live v1 deploy URL
+  { label: 'v1 · next.js', current: false, href: 'https://www.v1.rizkyyusfian.dev/' as string | null },
 ] as const;
 
 /**
