@@ -91,6 +91,16 @@ if (entry) {
             </span>
           )}
         </div>
+        {headings.length > 0 && (
+          <details class="toc-m">
+            <summary>{t('post.onThisPage')}</summary>
+            <nav aria-label={t('post.onThisPage')}>
+              {headings.map((h) => (
+                <a href={`#${h.slug}`} class:list={[{ lvl3: h.depth === 3 }]}>{h.text}</a>
+              ))}
+            </nav>
+          </details>
+        )}
         <div class="prose">
           <Content />
         </div>

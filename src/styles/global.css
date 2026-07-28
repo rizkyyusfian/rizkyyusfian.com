@@ -162,6 +162,10 @@ ul { margin: 0; padding: 0; list-style: none; }
 :root[data-theme='light'] .logo-dark { display: block; }
 
 /* header controls (language + theme) */
+/* Mobile nav drawer trigger — hidden until the columns collapse (≤900px). */
+.navtoggle { display: none; align-items: center; justify-content: center; width: 34px; height: 30px; margin: 0 2px 0 -4px; padding: 0; border: 1px solid transparent; border-radius: 7px; background: none; color: var(--muted); cursor: pointer; font-size: 17px; }
+.navtoggle:hover { color: var(--ink); background: var(--hover); }
+.nav-backdrop { display: none; position: fixed; inset: 0; z-index: 30; background: rgba(0, 0, 0, 0.42); }
 .topbar-controls { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; }
 .iconbtn { display: inline-flex; align-items: center; justify-content: center; gap: 3px; height: 24px; min-width: 26px; padding: 0 7px; border: 1px solid var(--border); border-radius: 6px; background: none; color: var(--muted); cursor: pointer; font-family: var(--font-mono); font-size: 11px; font-weight: 700; }
 .iconbtn:hover { color: var(--ink); background: var(--hover); }
@@ -446,11 +450,63 @@ a.spotify:hover .song { color: var(--accent); }
    RESPONSIVE
    ============================================================ */
 @media (max-width: 900px) {
+  /* Single column: content first, live widgets fall below it. */
   .grid, .grid.read, .grid.no-aside { grid-template-columns: 1fr; }
-  .leftnav, .main { border-right: 0; border-bottom: 1px solid var(--border); }
+  .main { border-right: 0; }
   .toccol { display: none; }
-  .explorer-nav, .aside > .live { position: static; }
+  .aside > .live { position: static; }
   .col { padding: 22px; }
+
+  /* Show the hamburger; bump the topbar to a comfortable tap height. */
+  .navtoggle { display: inline-flex; }
+  .topbar { min-height: 44px; }
+  .iconbtn { height: 30px; min-width: 34px; }
+
+  /* Left nav becomes an off-canvas drawer. */
+  .leftnav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 40;
+    width: min(84vw, 300px);
+    border-right: 1px solid var(--border);
+    border-bottom: 0;
+    background: var(--asidebg);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    transform: translateX(-100%);
+    transition: transform 0.22s ease;
+    -webkit-overflow-scrolling: touch;
+  }
+  .explorer-nav { position: static; }
+  body.nav-open .leftnav { transform: translateX(0); box-shadow: 4px 0 24px -8px rgba(0, 0, 0, 0.35); }
+  body.nav-open { overflow: hidden; }
+
+  /* Dimmed backdrop appears only while the drawer is open. */
+  body.nav-open .nav-backdrop { display: block; }
+
+  /* Larger tap targets for the drawer's nav rows. */
+  .exp-item { padding: 9px 8px; }
+
+  /* Collapsed in-article TOC (shown only on mobile). */
+  .toc-m { display: block; }
+}
+
+/* Mobile-only collapsible TOC lives in the article; hidden on desktop
+   (the sticky right-column TOC handles that width). */
+.toc-m { display: none; margin: 4px 0 22px; border: 1px solid var(--border); border-radius: 9px; background: var(--asidebg); }
+.toc-m > summary { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); padding: 11px 14px; cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; }
+.toc-m > summary::-webkit-details-marker { display: none; }
+.toc-m > summary::before { content: '▸'; color: var(--accent); transition: transform 0.15s; }
+.toc-m[open] > summary::before { transform: rotate(90deg); }
+.toc-m nav { padding: 0 14px 12px; }
+.toc-m a { display: block; font-family: var(--font-mono); font-size: 13px; color: var(--muted); padding: 6px 0 6px 11px; border-left: 2px solid var(--border); line-height: 1.4; }
+.toc-m a:hover { color: var(--ink); }
+.toc-m a.lvl3 { padding-left: 22px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .leftnav { transition: none; }
 }
 
 /* ============================================================

@@ -160,6 +160,9 @@ const targetLabel = lang === 'en' ? 'ID' : 'EN';
   <body>
     <div class="shell">
       <header class="topbar" data-pagefind-ignore>
+        <button type="button" class="navtoggle" id="nav-toggle" aria-label={t('nav.menu')} title={t('nav.menu')} aria-controls="leftnav" aria-expanded="false">
+          <Icon name="lucide:menu" />
+        </button>
         <span class="prompt-sym">❯</span>
         <span class="path">{termPath}</span>
         <div class="topbar-controls">
@@ -172,9 +175,10 @@ const targetLabel = lang === 'en' ? 'ID' : 'EN';
       </header>
 
       <div class={gridClass}>
-        <aside class="col leftnav" data-pagefind-ignore>
+        <aside class="col leftnav" id="leftnav" data-pagefind-ignore>
           <Explorer lang={lang} currentPath={currentPath} />
         </aside>
+        <div class="nav-backdrop" id="nav-backdrop"></div>
 
         <main class="col main" data-pagefind-body>
           <slot />
@@ -215,6 +219,48 @@ const targetLabel = lang === 'en' ? 'ID' : 'EN';
     </div>
 
     <script>
+      // Mobile nav drawer. The left Explorer column becomes an off-canvas panel
+      // below 900px; the topbar hamburger opens it over a dimmed backdrop.
+      (() => {
+        const toggle = document.getElementById('nav-toggle');
+        const drawer = document.getElementById('leftnav');
+        const backdrop = document.getElementById('nav-backdrop');
+        if (!toggle || !drawer || !backdrop) return;
+
+        let lastFocused: HTMLElement | null = null;
+
+        const isOpen = () => document.body.classList.contains('nav-open');
+
+        const open = () => {
+          lastFocused = document.activeElement as HTMLElement;
+          document.body.classList.add('nav-open');
+          toggle.setAttribute('aria-expanded', 'true');
+          // Focus the first focusable element inside the drawer.
+          drawer.querySelector<HTMLElement>('a, button, [tabindex]')?.focus();
+        };
+
+        const close = () => {
+          document.body.classList.remove('nav-open');
+          toggle.setAttribute('aria-expanded', 'false');
+          lastFocused?.focus();
+        };
+
+        toggle.addEventListener('click', () => (isOpen() ? close() : open()));
+        backdrop.addEventListener('click', close);
+        // Close after navigating to a destination.
+        drawer.addEventListener('click', (e) => {
+          if ((e.target as HTMLElement).closest('a')) close();
+        });
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && isOpen()) close();
+        });
+        // Reset when resizing up to the desktop layout.
+        const mq = window.matchMedia('(min-width: 901px)');
+        mq.addEventListener('change', (e) => {
+          if (e.matches && isOpen()) close();
+        });
+      })();
+
       // Version switcher — navigates when a target URL exists (visual-only otherwise).
       const sel = document.getElementById('version-switch');
       sel?.addEventListener('change', (e) => {
