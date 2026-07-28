@@ -43,3 +43,7 @@ next-env.d.ts
 # py file
 *.py
 __pycache__/
+
+dist
+.astro
+.vscode
