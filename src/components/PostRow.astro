@@ -1,6 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components';
-import { localizePath } from '@i18n/utils';
+import { localizePath, useTranslations } from '@i18n/utils';
 import type { Lang } from '@i18n/ui';
 import { baseSlug, readingTime, availableLangs, type Post } from '../lib/blog';
 
@@ -9,6 +9,7 @@ interface Props {
   lang: Lang;
 }
 const { entry, lang } = Astro.props;
+const t = useTranslations(lang);
 
 const slug = baseSlug(entry);
 const langs = await availableLangs(slug);
@@ -32,5 +33,5 @@ const dateFmt = new Intl.DateTimeFormat(lang === 'id' ? 'id-ID' : 'en-US', {
     </span>
     <div class="fdesc">{entry.data.description}</div>
   </div>
-  <span class="fdate">{dateFmt} · {mins}′</span>
+  <span class="fdate">{dateFmt}<span class="fdate-sep">·</span><Icon name="lucide:clock" /> {mins} {t('writing.readingTime')}</span>
 </a>

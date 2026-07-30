@@ -251,7 +251,9 @@ a.chip:hover { color: var(--accent); border-color: var(--accent); }
 .flags .en { background: var(--accent-soft); color: var(--accent); }
 .flags .id { background: var(--idbg); color: var(--idink); }
 .file-row .fdesc { font-family: var(--font-sans); font-size: 12.5px; color: var(--muted); margin-top: 3px; line-height: 1.5; }
-.file-row .fdate { font-family: var(--font-mono); font-size: 11px; color: var(--faint); flex: 0 0 auto; margin-left: auto; font-variant-numeric: tabular-nums; }
+.file-row .fdate { display: inline-flex; align-items: center; gap: 4px; font-family: var(--font-mono); font-size: 11px; color: var(--faint); flex: 0 0 auto; margin-left: auto; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.file-row .fdate [data-icon] { font-size: 12px; }
+.fdate-sep { opacity: 0.6; }
 
 /* ============================================================
    LIVE SIDEBAR WIDGETS
