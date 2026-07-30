@@ -16,6 +16,7 @@ const langs = await availableLangs(slug);
 const mins = readingTime(entry);
 const isNote = entry.data.kind === 'note';
 const dateFmt = new Intl.DateTimeFormat(lang === 'id' ? 'id-ID' : 'en-US', {
+  year: 'numeric',
   month: 'short',
   day: '2-digit',
 }).format(entry.data.pubDate);
