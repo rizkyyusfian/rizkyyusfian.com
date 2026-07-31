@@ -22,7 +22,7 @@ const dateFmt = new Intl.DateTimeFormat(lang === 'id' ? 'id-ID' : 'en-US', {
 }).format(entry.data.pubDate);
 ---
 
-<a class="file-row" href={localizePath(`/blog/${slug}`, lang)}>
+<a class="file-row" href={localizePath(`/${isNote ? 'notes' : 'blog'}/${slug}`, lang)}>
   <span class:list={['ficon', isNote ? 'ico-md' : 'ico-astro']}>
     <Icon name={isNote ? 'lucide:file-text' : 'lucide:triangle'} />
   </span>

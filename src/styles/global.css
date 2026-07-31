@@ -695,3 +695,13 @@ a.spotify:hover .song { color: var(--accent); }
 .nf-links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
 .nf-links a { display: inline-flex; align-items: center; gap: 7px; padding: 8px 13px; border: 1px solid var(--border); border-radius: 9px; font-family: var(--font-mono); font-size: 13px; color: var(--ink); }
 .nf-links a:hover { border-color: var(--accent); color: var(--accent); }
+
+/* prev / next within a section (article footer) */
+.post-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+.pn { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border: 1px solid var(--border); border-radius: 11px; background: var(--bg); min-width: 0; transition: border-color 0.12s; }
+.pn:hover { border-color: var(--accent); }
+.pn.next { text-align: right; align-items: flex-end; }
+.pn-dir { font-family: var(--font-mono); font-size: 11px; color: var(--faint); text-transform: uppercase; letter-spacing: 0.05em; }
+.pn b { font-family: var(--font-mono); font-size: 13.5px; font-weight: 600; color: var(--ink); line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.pn:hover b { color: var(--accent); }
+@media (max-width: 560px) { .post-nav { grid-template-columns: 1fr; } .pn.next { text-align: left; align-items: flex-start; } }

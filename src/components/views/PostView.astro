@@ -5,17 +5,23 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import { useTranslations, localizePath, otherLang } from '@i18n/utils';
 import type { Lang } from '@i18n/ui';
 import Comments from '@components/Comments.astro';
-import { readingTime, availableLangs, baseSlug, getPosts, type Post } from '../../lib/blog';
+import { readingTime, availableLangs, baseSlug, getAdjacent, type Post, type Kind } from '../../lib/blog';
 
 interface Props {
   entry: Post | null;
   slug: string;
   lang: Lang;
+  section: Kind;
 }
-const { entry, slug, lang } = Astro.props;
+const { entry, slug, lang, section } = Astro.props;
 const t = useTranslations(lang);
 const other = otherLang(lang);
 const langs = await availableLangs(slug);
+
+const sectionPath = section === 'note' ? 'notes' : 'blog';
+const postHref = (s: string, l: Lang = lang) => localizePath(`/${sectionPath}/${s}`, l);
+const backHref = localizePath(`/${sectionPath}`, lang);
+const backLabel = section === 'note' ? t('post.backToNotes') : t('post.backToBlog');
 
 let Content: any = null;
 let headings: { depth: number; slug: string; text: string }[] = [];
@@ -28,7 +34,7 @@ if (entry) {
 const title = entry ? entry.data.title : slug;
 const description = entry?.data.description;
 // Only emit hreflang for translations that actually exist.
-const alternates = langs.map((l) => ({ hreflang: l, path: localizePath(`/blog/${slug}`, l) }));
+const alternates = langs.map((l) => ({ hreflang: l, path: postHref(slug, l) }));
 const dateFmt = entry
   ? new Intl.DateTimeFormat(lang === 'id' ? 'id-ID' : 'en-US', {
       year: 'numeric',
@@ -38,12 +44,13 @@ const dateFmt = entry
   : '';
 const mins = entry ? readingTime(entry) : 0;
 
-// Next article to read (the next post in this language, newest-first order).
+// Previous (newer) / next (older) within the same section + language.
+let prevPost: Post | null = null;
 let nextPost: Post | null = null;
 if (entry) {
-  const all = await getPosts(lang);
-  const idx = all.findIndex((p) => baseSlug(p) === slug);
-  nextPost = idx >= 0 && idx < all.length - 1 ? all[idx + 1] : null;
+  const adj = await getAdjacent(lang, section, slug);
+  prevPost = adj.prev;
+  nextPost = adj.next;
 }
 ---
 
@@ -52,7 +59,7 @@ if (entry) {
   title={title}
   description={description}
   variant="reading"
-  termPath={`~/blog/${slug}.mdx`}
+  termPath={`~/${sectionPath}/${slug}.mdx`}
   ogType="article"
   image={entry?.data.cover}
   article={entry ? { published: entry.data.pubDate, updated: entry.data.updated, tags: entry.data.tags } : undefined}
@@ -60,7 +67,7 @@ if (entry) {
 >
   <div class="crumbs">
     <a href={localizePath('/', lang)}>~</a><span class="sep">/</span>
-    <a href={localizePath('/blog', lang)}>blog</a><span class="sep">/</span>
+    <a href={backHref}>{sectionPath}</a><span class="sep">/</span>
     <span class="cur2">{slug}</span>
   </div>
 
@@ -70,7 +77,7 @@ if (entry) {
         l === lang ? (
           <span class="on">{l.toUpperCase()}</span>
         ) : langs.includes(l as Lang) ? (
-          <a href={localizePath(`/blog/${slug}`, l as Lang)}>{l.toUpperCase()}</a>
+          <a href={postHref(slug, l as Lang)}>{l.toUpperCase()}</a>
         ) : (
           <span class="off" aria-disabled="true">{l.toUpperCase()}</span>
         )
@@ -104,12 +111,32 @@ if (entry) {
         <div class="prose">
           <Content />
         </div>
+
         <div class="artfoot">
-          <a href={localizePath('/blog', lang)}>← {t('post.backToBlog')}</a>
-          {nextPost && (
-            <a href={localizePath(`/blog/${baseSlug(nextPost)}`, lang)}>{t('post.nextArticle')} →</a>
-          )}
+          <a href={backHref}>← {backLabel}</a>
         </div>
+
+        {(prevPost || nextPost) && (
+          <nav class="post-nav" aria-label="More in this section">
+            {prevPost ? (
+              <a class="pn prev" href={postHref(baseSlug(prevPost))}>
+                <span class="pn-dir">← {t('post.prev')}</span>
+                <b>{prevPost.data.title}</b>
+              </a>
+            ) : (
+              <span></span>
+            )}
+            {nextPost ? (
+              <a class="pn next" href={postHref(baseSlug(nextPost))}>
+                <span class="pn-dir">{t('post.next')} →</span>
+                <b>{nextPost.data.title}</b>
+              </a>
+            ) : (
+              <span></span>
+            )}
+          </nav>
+        )}
+
         <Comments lang={lang} />
       </>
     ) : (
@@ -119,12 +146,10 @@ if (entry) {
           <Icon name="lucide:languages" />
           <div>
             {t('post.notAvailable')}{' '}
-            {langs.includes(other) && (
-              <a href={localizePath(`/blog/${slug}`, other)}>{t('post.readInstead')}</a>
-            )}
+            {langs.includes(other) && <a href={postHref(slug, other)}>{t('post.readInstead')}</a>}
           </div>
         </div>
-        <p class="page-lead"><a href={localizePath('/blog', lang)}>← {t('post.backToBlog')}</a></p>
+        <p class="page-lead"><a href={backHref}>← {backLabel}</a></p>
       </>
     )}
   </article>

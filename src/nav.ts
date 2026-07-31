@@ -26,10 +26,11 @@ export const navTree: NavNode[] = [
   { type: 'file', name: 'index', ext: 'astro', path: '/' },
   {
     type: 'folder',
-    name: 'blog',
+    name: 'blog/notes',
     open: true,
     children: [
-      { type: 'file', name: 'index', ext: 'astro', path: '/blog' },
+      { type: 'file', name: 'blog', ext: 'astro', path: '/blog' },
+      { type: 'file', name: 'notes', ext: 'astro', path: '/notes' },
       { type: 'file', name: 'tags', ext: 'astro', path: '/tags' },
     ],
   },

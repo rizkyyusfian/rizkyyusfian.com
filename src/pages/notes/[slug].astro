@@ -1,7 +1,7 @@
 ---
 import PostView from '@components/views/PostView.astro';
 import { getRoutesForSection } from '../../lib/blog';
-export async function getStaticPaths() { return getRoutesForSection('en', 'blog'); }
+export async function getStaticPaths() { return getRoutesForSection('en', 'note'); }
 const { entry, slug, section } = Astro.props;
 ---
 

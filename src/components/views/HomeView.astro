@@ -40,7 +40,7 @@ const taglineHtml = tagline.replace(accentWord, `<span class="accent">${accentWo
       <button class="on" data-tab="blog" role="tab" aria-selected="true">{t('writing.blog')}</button>
       <button data-tab="note" role="tab" aria-selected="false">{t('writing.notes')}</button>
     </div>
-    <a class="all" href={localizePath('/blog', lang)}>{t('writing.viewAll')} →</a>
+    <a class="all" data-viewall href={localizePath('/blog', lang)} data-blog={localizePath('/blog', lang)} data-note={localizePath('/notes', lang)}>{t('writing.viewAll')} →</a>
   </div>
 
   <div data-panel="blog" style="margin-top:4px">
@@ -67,6 +67,8 @@ const taglineHtml = tagline.replace(accentWord, `<span class="accent">${accentWo
       panels.forEach((p) => {
         (p as HTMLElement).hidden = p.getAttribute('data-panel') !== key;
       });
+      const va = document.querySelector('[data-viewall]') as HTMLAnchorElement | null;
+      if (va) va.href = va.getAttribute(key === 'note' ? 'data-note' : 'data-blog') || va.href;
     });
   });
 </script>
