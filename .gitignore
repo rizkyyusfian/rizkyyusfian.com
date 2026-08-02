@@ -31,3 +31,5 @@ yarn-debug.log*
 
 /vscode
 .vscode
+
+CLAUDE.md
