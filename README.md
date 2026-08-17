@@ -37,8 +37,21 @@ English and Indonesian.
 
 ## Development
 
+Blog, note, and gist MDX live in a separate private repository named
+`rizkyyusfian.com-content`. Keep it beside this repository:
+
+```text
+repositoryproject/
+  rizkyyusfian.com/
+  rizkyyusfian.com-content/
+```
+
+The development and build commands synchronize that content into an ignored
+local directory before Astro starts.
+
 ```bash
 npm install
+npm run content:sync
 npm run dev      # http://localhost:4321
 npm run build    # static build → .vercel/output
 npm run preview
@@ -54,10 +67,11 @@ src/
   pages/         # routes (EN at /, ID under /id/)
   layouts/       # BaseLayout — app shell, nav, live sidebar
   components/    # explorer nav, widgets, and one View per page
-  content/       # blog + gist entries (MDX)
   data/          # collections, résumé, uses (edit these to update content)
   i18n/          # EN/ID dictionaries + helpers
   lib/           # blog/tags/git helpers
+scripts/
+  content-sync.mjs  # validates and synchronizes private MDX
 ```
 
 ## License

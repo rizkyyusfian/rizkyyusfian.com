@@ -32,4 +32,11 @@ yarn-debug.log*
 /vscode
 .vscode
 
+/docs
+
 CLAUDE.md
+AGENTS.md
+
+# private content (generated locally or checked out in CI)
+/.content/
+/.content-source/

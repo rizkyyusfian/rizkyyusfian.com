@@ -12,7 +12,7 @@ import { glob } from 'astro/loaders';
 const blog = defineCollection({
   loader: glob({
     pattern: '**/*.{md,mdx}',
-    base: './src/content/blog',
+    base: './.content/blog',
     // Preserve the "<slug>.<lang>" id (default slugify would drop the dot).
     generateId: ({ entry }) => entry.replace(/\.(md|mdx)$/, ''),
   }),
@@ -35,7 +35,7 @@ const blog = defineCollection({
  * (a snippet is the same in EN and ID), so no per-language pairing here.
  */
 const gist = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/gist' }),
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './.content/gist' }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
