@@ -37,7 +37,8 @@ English and Indonesian.
 
 ## Development
 
-Blog, note, and gist MDX live in a separate private repository named
+Blog, note, and gist MDX live in separate `blog`, `notes`, and `gist` folders
+inside a private repository named
 `rizkyyusfian.com-content`. Keep it beside this repository:
 
 ```text
