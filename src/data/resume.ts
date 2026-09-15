@@ -15,6 +15,7 @@ export interface School {
 export interface Publication {
   title: string;
   year: number;
+  href: string;
 }
 export interface Certificate {
   name: string;
@@ -75,9 +76,21 @@ export const education: School[] = [
 ];
 
 export const publications: Publication[] = [
-  { title: 'A Comparative Analysis of CNN and Vision Transformer Models for Smoker Identification', year: 2024 },
-  { title: 'Enhancing Drug-Target Affinity Prediction with Multi-scale Graph Attention Network and Attention Mechanism', year: 2025 },
-  { title: 'Improving Drug-Target Affinity Prediction Using Dynamic Graph Attention Network with Multi-scale Features and Attention Mechanism', year: 2025 },
+  {
+    title: 'A Comparative Analysis of CNN and Vision Transformer Models for Smoker Identification',
+    year: 2024,
+    href: 'https://ieeexplore.ieee.org/document/10698664',
+  },
+  {
+    title: 'Enhancing Drug-Target Affinity Prediction with Multi-scale Graph Attention Network and Attention Mechanism',
+    year: 2025,
+    href: 'https://journal.uad.ac.id/index.php/JITEKI/article/view/30425',
+  },
+  {
+    title: 'Improving Drug-Target Affinity Prediction Using Dynamic Graph Attention Network with Multi-scale Features and Attention Mechanism',
+    year: 2025,
+    href: 'https://inass.org/wp-content/uploads/2025/01/2025043036-2.pdf',
+  },
 ];
 
 export const certificates: Certificate[] = [

@@ -24,7 +24,10 @@ const taglineHtml = tagline.replace(accentWord, `<span class="accent">${accentWo
 
   <div class="cli-line"><span class="pr">❯</span> cat <span class="flag">welcome.txt</span></div>
   <div class="hero" style="margin:4px 0 20px">
-    <h1 set:html={taglineHtml} />
+    <div class="typing-line">
+      <h1 data-typing set:html={taglineHtml} />
+      <span class="typing-cursor" aria-hidden="true"></span>
+    </div>
     <p><span class="cli-comment"># </span>{t('home.intro')}</p>
     <div class="tags">
       <span class="chip">TypeScript</span>
@@ -71,4 +74,19 @@ const taglineHtml = tagline.replace(accentWord, `<span class="accent">${accentWo
       if (va) va.href = va.getAttribute(key === 'note' ? 'data-note' : 'data-blog') || va.href;
     });
   });
+</script>
+
+<script>
+  const heading = document.querySelector<HTMLElement>('[data-typing]');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (heading && !reduced) {
+    const steps = Math.max(1, heading.textContent?.length ?? 1);
+    heading.animate(
+      [
+        { clipPath: 'inset(0 100% 0 0)' },
+        { clipPath: 'inset(0 0 0 0)' },
+      ],
+      { duration: 1050, easing: `steps(${steps}, end)`, fill: 'both' },
+    );
+  }
 </script>

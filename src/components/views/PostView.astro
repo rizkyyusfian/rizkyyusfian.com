@@ -44,7 +44,7 @@ const dateFmt = entry
   : '';
 const mins = entry ? readingTime(entry) : 0;
 
-// Previous (newer) / next (older) within the same section + language.
+// Previous (older) / next (newer) within the same section + language.
 let prevPost: Post | null = null;
 let nextPost: Post | null = null;
 if (entry) {

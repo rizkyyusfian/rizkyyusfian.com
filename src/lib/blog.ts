@@ -51,12 +51,12 @@ export async function getRoutesForSection(lang: Lang, kind: Kind) {
     .map((r) => ({ params: { slug: r.slug }, props: { entry: r.entry, slug: r.slug, section: kind } }));
 }
 
-/** Previous (newer) and next (older) post within the same section + language. */
+/** Previous (older) and next (newer) post within the same section + language. */
 export async function getAdjacent(lang: Lang, kind: Kind, slug: string) {
   const list = await getPosts(lang, kind);
   const idx = list.findIndex((p) => baseSlug(p) === slug);
   return {
-    prev: idx > 0 ? list[idx - 1] : null,
-    next: idx >= 0 && idx < list.length - 1 ? list[idx + 1] : null,
+    prev: idx >= 0 && idx < list.length - 1 ? list[idx + 1] : null,
+    next: idx > 0 ? list[idx - 1] : null,
   };
 }

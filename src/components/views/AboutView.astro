@@ -116,7 +116,12 @@ const t = useTranslations(lang);
     <h2 class="resume-h"><Icon name="lucide:scroll-text" /> {t('about.publications')}</h2>
     <ol class="pub-list">
       {publications.map((p) => (
-        <li><span class="pub-year">{p.year}</span><span class="pub-title">{p.title}</span></li>
+        <li>
+          <span class="pub-year">{p.year}</span>
+          <a class="pub-title" href={p.href} target="_blank" rel="noopener">
+            <span>{p.title}</span><Icon name="lucide:external-link" />
+          </a>
+        </li>
       ))}
     </ol>
   </section>

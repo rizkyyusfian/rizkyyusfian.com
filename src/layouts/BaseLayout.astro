@@ -3,6 +3,7 @@ import '@styles/global.css';
 import { Icon } from 'astro-icon/components';
 import Explorer from '@components/Explorer.astro';
 import LiveSidebar from '@components/LiveSidebar.astro';
+import SearchDialog from '@components/SearchDialog.astro';
 import { useTranslations } from '@i18n/utils';
 import type { Lang } from '@i18n/ui';
 import { site, socials, versions } from '../siteConfig';
@@ -166,6 +167,7 @@ const targetLabel = lang === 'en' ? 'ID' : 'EN';
         <span class="prompt-sym">❯</span>
         <span class="path">{termPath}</span>
         <div class="topbar-controls">
+          <SearchDialog lang={lang} />
           <a class="iconbtn lang-btn" href={otherHref} hreflang={targetLabel.toLowerCase()} aria-label={t('lang.switch')} title={t('lang.switch')}>{targetLabel}</a>
           <button type="button" class="iconbtn" id="theme-toggle" aria-label={t('theme.toggle')} title={t('theme.toggle')}>
             <span class="theme-light-only" aria-hidden="true"><Icon name="lucide:moon" /></span>

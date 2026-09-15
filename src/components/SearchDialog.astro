@@ -1,0 +1,212 @@
+---
+import { Icon } from 'astro-icon/components';
+import { useTranslations } from '@i18n/utils';
+import type { Lang } from '@i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<button
+  type="button"
+  class="iconbtn search-trigger"
+  id="search-trigger"
+  aria-label={t('search.open')}
+  aria-haspopup="dialog"
+  aria-controls="search-dialog"
+  aria-keyshortcuts="Meta+K Control+K"
+  title={`${t('search.open')} (⌘K)`}
+>
+  <Icon name="lucide:search" />
+  <span class="search-key" aria-hidden="true">⌘K</span>
+</button>
+
+<dialog
+  class="search-dialog"
+  id="search-dialog"
+  aria-labelledby="search-dialog-title"
+  data-lang={lang}
+  data-loading={t('search.loading')}
+  data-hint={t('search.hint')}
+  data-empty={t('search.empty')}
+  data-unavailable={t('search.unavailable')}
+  data-result={t('search.result')}
+  data-results={t('search.results')}
+>
+  <div class="search-panel">
+    <header class="search-head">
+      <Icon name="lucide:search" />
+      <label id="search-dialog-title" for="search-input">{t('search.open')}</label>
+      <button type="button" class="search-close" data-search-close aria-label={t('search.close')}>
+        <Icon name="lucide:x" />
+      </button>
+    </header>
+    <div class="search-inputrow">
+      <span class="search-prompt" aria-hidden="true">❯</span>
+      <input
+        id="search-input"
+        type="search"
+        inputmode="search"
+        autocomplete="off"
+        spellcheck="false"
+        placeholder={t('search.placeholder')}
+      />
+    </div>
+    <p class="search-status" id="search-status" aria-live="polite">{t('search.hint')}</p>
+    <ol class="search-results" id="search-results"></ol>
+    <footer class="search-foot" aria-hidden="true">
+      <span><kbd>↑↓</kbd> navigate</span>
+      <span><kbd>↵</kbd> open</span>
+      <span><kbd>esc</kbd> close</span>
+    </footer>
+  </div>
+</dialog>
+
+<script>
+  type PagefindResult = {
+    url: string;
+    meta?: { title?: string };
+    excerpt?: string;
+  };
+
+  type PagefindSearchResult = {
+    data: () => Promise<PagefindResult>;
+  };
+
+  type PagefindModule = {
+    search: (query: string) => Promise<{ results: PagefindSearchResult[] }>;
+  };
+
+  const trigger = document.getElementById('search-trigger') as HTMLButtonElement | null;
+  const dialog = document.getElementById('search-dialog') as HTMLDialogElement | null;
+  const input = document.getElementById('search-input') as HTMLInputElement | null;
+  const status = document.getElementById('search-status');
+  const results = document.getElementById('search-results');
+
+  if (trigger && dialog && input && status && results) {
+    let pagefind: Promise<PagefindModule> | null = null;
+    let timer = 0;
+    let request = 0;
+
+    const textFromHtml = (value: string) => {
+      const node = document.createElement('template');
+      node.innerHTML = value;
+      return node.content.textContent?.trim() ?? '';
+    };
+
+    const loadPagefind = () => {
+      const pagefindPath = '/pagefind/pagefind.js';
+      pagefind ??= import(/* @vite-ignore */ pagefindPath) as Promise<PagefindModule>;
+      return pagefind;
+    };
+
+    const contentType = (path: string) => {
+      const clean = path.replace(/^\/id(?=\/)/, '');
+      if (clean.startsWith('/notes/')) return 'note';
+      if (clean.startsWith('/gist/')) return 'gist';
+      return 'blog';
+    };
+
+    const isWriting = (url: string) => {
+      const path = new URL(url, location.origin).pathname;
+      const localePath = dialog.dataset.lang === 'id' ? path.startsWith('/id/') : !path.startsWith('/id/');
+      if (!localePath) return false;
+      const clean = path.replace(/^\/id(?=\/)/, '');
+      return ['/blog/', '/notes/', '/gist/'].some(
+        (base) => clean.startsWith(base) && clean !== base,
+      );
+    };
+
+    const render = (items: PagefindResult[]) => {
+      results.replaceChildren();
+      for (const item of items) {
+        const path = new URL(item.url, location.origin).pathname;
+        const link = document.createElement('a');
+        link.href = item.url;
+        link.className = 'search-result';
+
+        const badge = document.createElement('span');
+        badge.className = 'search-type';
+        badge.textContent = contentType(path);
+
+        const copy = document.createElement('span');
+        copy.className = 'search-copy';
+        const title = document.createElement('b');
+        title.textContent = item.meta?.title ?? path;
+        const excerpt = document.createElement('span');
+        excerpt.textContent = textFromHtml(item.excerpt ?? '');
+        copy.append(title, excerpt);
+
+        const arrow = document.createElement('span');
+        arrow.className = 'search-arrow';
+        arrow.textContent = '↵';
+        link.append(badge, copy, arrow);
+
+        const row = document.createElement('li');
+        row.append(link);
+        results.append(row);
+      }
+    };
+
+    const runSearch = async () => {
+      const query = input.value.trim();
+      const current = ++request;
+      if (!query) {
+        results.replaceChildren();
+        status.textContent = dialog.dataset.hint ?? '';
+        return;
+      }
+      status.textContent = dialog.dataset.loading ?? '';
+      try {
+        const engine = await loadPagefind();
+        const response = await engine.search(query);
+        const data = await Promise.all(response.results.map((result) => result.data()));
+        if (current !== request) return;
+        const writing = data.filter((item) => isWriting(item.url));
+        render(writing);
+        const resultLabel = writing.length === 1 ? dialog.dataset.result : dialog.dataset.results;
+        status.textContent = writing.length ? `${writing.length} ${resultLabel ?? ''}` : dialog.dataset.empty ?? '';
+      } catch {
+        if (current !== request) return;
+        results.replaceChildren();
+        status.textContent = dialog.dataset.unavailable ?? '';
+      }
+    };
+
+    const open = () => {
+      if (!dialog.open) dialog.showModal();
+      requestAnimationFrame(() => input.focus());
+    };
+
+    trigger.addEventListener('click', open);
+    dialog.querySelector('[data-search-close]')?.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+    dialog.addEventListener('close', () => trigger.focus());
+    input.addEventListener('input', () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(runSearch, 120);
+    });
+    document.addEventListener('keydown', (event) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        open();
+        return;
+      }
+      if (!dialog.open || (event.key !== 'ArrowDown' && event.key !== 'ArrowUp')) return;
+      const links = [...results.querySelectorAll<HTMLAnchorElement>('a')];
+      if (!links.length) return;
+      event.preventDefault();
+      const index = links.indexOf(document.activeElement as HTMLAnchorElement);
+      const next = event.key === 'ArrowDown'
+        ? (index + 1) % links.length
+        : (index <= 0 ? links.length : index) - 1;
+      links[next]?.focus();
+    });
+  }
+</script>
