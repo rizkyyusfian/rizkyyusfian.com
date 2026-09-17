@@ -18,7 +18,7 @@ type Repo = {
 };
 let repos: Repo[] = [];
 try {
-  const token = import.meta.env.GITHUB_TOKEN || process.env.GITHUB_TOKEN;
+  const token = process.env.GITHUB_TOKEN || import.meta.env.GITHUB_TOKEN;
   const res = await fetch(`https://api.github.com/users/${site.githubUser}/repos?per_page=100&sort=updated&type=owner`, {
     headers: {
       Accept: 'application/vnd.github+json',

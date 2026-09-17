@@ -3,7 +3,8 @@ import type { APIRoute } from 'astro';
 // On-demand: reflects what's playing right now.
 export const prerender = false;
 
-const env = (k: string) => import.meta.env[k] || process.env[k];
+// Runtime secrets must win over values embedded while producing a prebuilt deploy.
+const env = (k: string) => process.env[k] || import.meta.env[k];
 
 async function getAccessToken(id: string, secret: string, refresh: string): Promise<string | null> {
   const res = await fetch('https://accounts.spotify.com/api/token', {
@@ -21,12 +22,13 @@ async function getAccessToken(id: string, secret: string, refresh: string): Prom
 
 export const GET: APIRoute = async () => {
   const headers = { 'content-type': 'application/json', 'cache-control': 'public, max-age=30' };
+  const errorHeaders = { 'content-type': 'application/json', 'cache-control': 'no-store' };
   const id = env('SPOTIFY_CLIENT_ID');
   const secret = env('SPOTIFY_CLIENT_SECRET');
   const refresh = env('SPOTIFY_REFRESH_TOKEN');
 
   if (!id || !secret || !refresh) {
-    return new Response(JSON.stringify({ ok: false, playing: false, reason: 'no-creds' }), { status: 200, headers });
+    return new Response(JSON.stringify({ ok: false, playing: false, reason: 'no-creds' }), { status: 200, headers: errorHeaders });
   }
 
   try {
@@ -66,6 +68,6 @@ export const GET: APIRoute = async () => {
       { status: 200, headers }
     );
   } catch (e) {
-    return new Response(JSON.stringify({ ok: false, playing: false, reason: String(e) }), { status: 200, headers });
+    return new Response(JSON.stringify({ ok: false, playing: false, reason: String(e) }), { status: 200, headers: errorHeaders });
   }
 };

@@ -3,7 +3,7 @@ import type { APIRoute } from 'astro';
 // On-demand: current view/visitor totals from Umami.
 export const prerender = false;
 
-const env = (k: string) => import.meta.env[k] || process.env[k];
+const env = (k: string) => process.env[k] || import.meta.env[k];
 
 // Site launch — the start of the "all time" window.
 const LAUNCH = Date.UTC(2026, 6, 1); // 2026-07-01

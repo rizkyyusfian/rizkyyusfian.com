@@ -9,11 +9,14 @@ const WEEKS = 18; // columns shown in the sidebar grid
 const level = (c: number) => (c <= 0 ? 0 : c <= 2 ? 1 : c <= 5 ? 2 : c <= 9 ? 3 : 4);
 
 export const GET: APIRoute = async () => {
-  const token = import.meta.env.GITHUB_TOKEN || process.env.GITHUB_TOKEN;
+  // Prefer the runtime value. GitHub Actions deploys a prebuilt Vercel output,
+  // so a build-time value may be stale or redacted after a secret rotation.
+  const token = process.env.GITHUB_TOKEN || import.meta.env.GITHUB_TOKEN;
   const headers = { 'content-type': 'application/json', 'cache-control': 'public, max-age=3600' };
+  const errorHeaders = { 'content-type': 'application/json', 'cache-control': 'no-store' };
 
   if (!token) {
-    return new Response(JSON.stringify({ ok: false, reason: 'no-token' }), { status: 200, headers });
+    return new Response(JSON.stringify({ ok: false, reason: 'no-token' }), { status: 200, headers: errorHeaders });
   }
 
   const query = `query($login:String!){
@@ -56,6 +59,6 @@ export const GET: APIRoute = async () => {
       { status: 200, headers }
     );
   } catch (e) {
-    return new Response(JSON.stringify({ ok: false, reason: String(e) }), { status: 200, headers });
+    return new Response(JSON.stringify({ ok: false, reason: String(e) }), { status: 200, headers: errorHeaders });
   }
 };
